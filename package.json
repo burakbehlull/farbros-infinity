@@ -1,0 +1,15 @@
+{
+  "name": "Farbros Infinity",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+	  
+  },
+  "keywords": [],
+  "author": "Burak Behlül",
+  "license": "MIT",
+  "dependencies": {
+    "discord.js": "^14.15.3"
+  }
+}
