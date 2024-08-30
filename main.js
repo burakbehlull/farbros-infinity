@@ -1,4 +1,4 @@
-const { Client, GatewayIntentBits, Collection } = require('discord.js');
+const { Client, GatewayIntentBits, Collection, ActivityType } = require('discord.js');
 const path = require('path')
 const fs = require('fs')
 require('dotenv').config()
@@ -9,8 +9,8 @@ const client = new Client({
 
 client.commands = new Collection()
 
-const commandsPath = path.join(__dirname, 'commands');
-const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
+const commandsPath = path.join(__dirname, 'commands')
+const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'))
 
 for (const file of commandFiles) {
 	const filePath = path.join(commandsPath, file);
@@ -21,6 +21,9 @@ for (const file of commandFiles) {
 		console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
 	}
 }
+
+const eventsPath = path.join(__dirname, 'events')
+const eventFiles = fs.readdirSync(eventsPath).filter(file => file.endsWith('.js'))
 
 for (const file of eventFiles) {
 	const filePath = path.join(eventsPath, file);
