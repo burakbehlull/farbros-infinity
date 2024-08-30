@@ -1,5 +1,5 @@
 import { EmbedBuilder } from "discord.js";
-export class messageSender {
+export default class MessageSender {
     constructor(client){
         this.client = client
     }
@@ -15,4 +15,22 @@ export class messageSender {
         .setFooter(IFooter)
         return IEmbed
     }
+
+    async info(type, firstOnce){
+        const client = this.client
+
+        try {
+            let logs;
+            if(firstOnce){
+                logs = await client.fetchAuditLogs({limit:1,type: type})
+            } else {
+                logs = await client?.guild.fetchAuditLogs({limit:1,type: type})
+            }
+            const log = logs.entries.first()
+            return log
+        } catch (err) {
+            console.log("Hata:", err.message)
+        }
+    }
+    
 }

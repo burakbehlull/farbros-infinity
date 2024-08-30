@@ -1,9 +1,13 @@
 {
   "name": "Farbros Infinity",
   "version": "1.0.0",
-  "description": "",
+  "description": "Discord Guardian",
   "main": "main.js",
-  "scripts": {},
+  "scripts": {
+    "start": "node main",
+    "bot": "node main",
+    "dev": "nodemon main"
+  },
   "keywords": [],
   "author": "Burak Behlül",
   "license": "MIT",
