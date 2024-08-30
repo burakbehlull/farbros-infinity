@@ -3,13 +3,13 @@
   "version": "1.0.0",
   "description": "",
   "main": "main.js",
-  "scripts": {
-	  
-  },
+  "scripts": {},
   "keywords": [],
   "author": "Burak Behlül",
   "license": "MIT",
   "dependencies": {
-    "discord.js": "^14.15.3"
+    "discord.js": "^14.15.3",
+    "dotenv": "^16.4.5",
+    "mongoose": "^8.6.0"
   }
 }
