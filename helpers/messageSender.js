@@ -1,5 +1,5 @@
-import { EmbedBuilder } from "discord.js";
-export default class MessageSender {
+import { EmbedBuilder, Message } from "discord.js";
+class MessageSender {
     constructor(client){
         this.client = client
     }
@@ -34,3 +34,5 @@ export default class MessageSender {
     }
     
 }
+
+module.exports = MessageSender
