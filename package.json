@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node main",
     "bot": "node main",
-    "dev": "nodemon main"
+    "dev": "nodemon main",
+	"deploy": "node config/deploy-commands"
   },
   "keywords": [],
   "author": "Burak Behlül",
