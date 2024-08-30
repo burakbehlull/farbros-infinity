@@ -1,7 +1,8 @@
-import { EmbedBuilder, Message } from "discord.js";
+const { EmbedBuilder, AuditLogEvent } = require("discord.js")
 class MessageSender {
     constructor(client){
         this.client = client
+        this.audit = AuditLogEvent
     }
 
     embed({ title, color=0x0099FF,footer }){
@@ -16,15 +17,14 @@ class MessageSender {
         return IEmbed
     }
 
-    async info(type, firstOnce){
-        const client = this.client
+    async info(child, type, firstOnce){
 
         try {
             let logs;
             if(firstOnce){
-                logs = await client.fetchAuditLogs({limit:1,type: type})
+                logs = await child.fetchAuditLogs({limit:1,type: type})
             } else {
-                logs = await client?.guild.fetchAuditLogs({limit:1,type: type})
+                logs = await child?.guild.fetchAuditLogs({limit:1,type: type})
             }
             const log = logs.entries.first()
             return log
@@ -35,4 +35,6 @@ class MessageSender {
     
 }
 
-module.exports = MessageSender
+module.exports = {
+    MessageSender
+}

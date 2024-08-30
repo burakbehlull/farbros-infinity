@@ -1,4 +1,4 @@
-const PermissionsManager = require('./permissionsManager')
+const { PermissionsManager } = require('./permissionsManager')
 
 module.exports = {
     PermissionsManager

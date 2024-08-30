@@ -1,7 +1,7 @@
 {
-    "isOwner": false,
-    "isRoles": false,
+    "isOwner": true,
+    "isRoles": true,
 
-    "owners": [],
-    "roles": []
+    "owners": ["470548458072440842"],
+    "roles": ["1266884045325865051"]
 }
