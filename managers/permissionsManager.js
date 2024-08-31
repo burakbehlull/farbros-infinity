@@ -23,7 +23,6 @@ class PermissionsManager {
         if(isRoles){
 			let statusPromises = roles.map(async (role) => {
 				let hasRole = await member.roles.cache.has(role)
-                console.log(hasRole)
 				return hasRole
 			})
 
