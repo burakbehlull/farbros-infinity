@@ -10,15 +10,31 @@ module.exports = {
         const PM = new PermissionsManager(channel)
         try {
             const user = await sender.info(channel, sender.audit.ChannelDelete) 
+
             const owner = await PM.isOwners(user.executorId)
             const roles = await PM.isRoles(user.executorId)
-            const authority = await PM.isAuthority(user.executorId, PM.flags.ManageRoles)
+            const authority = await PM.isAuthority(user.executorId, PM.flags.Administrator)
             
-            const x = await sender.getUser(user.executorId, channel)
-            console.log('getuser', x)
-            if(owner && PM.config.isOwner || roles && PM.config.isRoles || authority && PM.config.isAuthority) return;
+            const member = await sender.getUser(user.executorId, channel)
 
+            if(!user || !member) return await interaction.reply('Kullanıcı bulunamadı!')
             
+            await sender.send({
+                interaction: channel,
+                isEmbed: true,
+                templateEmbed: true,
+                title: 'Channel Log',
+                description: `<@${user.executorId}>, **${channel.name}** adlı odayı sildiği için banlandı.`,
+            },PM.config.LogChannel)
+
+            if(owner && PM.config.isOwner || roles && PM.config.isRoles || authority && PM.config.isAuthority) return;
+            
+            await member.ban({
+                reason: 'Kanal silerken banlandı'
+            }).then(()=>{
+                console.log('Kullanıcı banlandı.')
+                return;
+            }).catch((err)=> console.log(err.message))
 
         } catch (err) {
             console.log("Hata: ", err.message)

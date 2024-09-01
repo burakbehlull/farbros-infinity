@@ -1,4 +1,4 @@
-const { EmbedBuilder, AuditLogEvent, Embed } = require("discord.js")
+const { EmbedBuilder, AuditLogEvent } = require("discord.js")
 class MessageSender {
     constructor(client){
         this.client = client
@@ -16,7 +16,6 @@ class MessageSender {
         .setFooter(IFooter)
         return IEmbed
     }
-
     async info(child, type, firstOnce){
 
         try {
@@ -45,8 +44,10 @@ class MessageSender {
         return channel
     }
     async send(embed={
-        interaction: null,
-        components: null,
+        interaction: undefined,
+        components: undefined,
+
+        templateEmbed: false,
 
         reply: false,
         text: undefined,
@@ -60,16 +61,24 @@ class MessageSender {
         thumbnail: undefined,
         fields: undefined
     }, channelId){
-        const IEmbed = new EmbedBuilder()
+        const templateEmbed = new EmbedBuilder()
+            .setFooter({ text: this.client.user.displayName, iconURL: this.client.user.avatarURL()})
+            .setColor(0x0099FF)
+            .setTimestamp()
+        const TemplateEmbed = embed.templateEmbed ?  templateEmbed : undefined
+            
+        
+        const IEmbed = new EmbedBuilder(TemplateEmbed)
         const target = embed.interaction ? embed.interaction : this.client
-        const getChannel = this.client.guild.channels.cache.get(channelId)
+        const getChannel = target.guild.channels.cache.get(channelId)
         const channel = channelId ? getChannel : target.channel
+
         if(embed.isEmbed && !embed.text && !embed.reply){
             if(embed.title) IEmbed.setTitle(embed.title)
             if(embed.description) IEmbed.setDescription(embed.description)
             if(embed.timestamp) IEmbed.setTimestamp()
             if(embed.footer) IEmbed.setFooter(embed.footer)
-            if(embed.color) IEmbed.setColor(embed.footer)
+            if(embed.color) IEmbed.setColor(embed.color)
             if(embed.image) IEmbed.setImage(embed.image)
             if(embed.thumbnail) IEmbed.setThumbnail(embed.thumbnail)
             if(embed.fields) IEmbed.setFields(embed.fields)
@@ -77,6 +86,14 @@ class MessageSender {
         }
         if(embed.text && !embed.isEmbed && !embed.reply){
             return await channel.send({content: embed.text, components: embed.components})
+        }
+        if(embed.reply && !embed.isEmbed && embed.text){
+            return await channel.reply({content: embed.text, components: embed.components})
+            
+        }
+        if(embed.reply && embed.isEmbed && !embed.text){
+            return await channel.reply({embeds: [IEmbed], components: embed.components})
+            
         }
     }
     

@@ -3,6 +3,7 @@
     "isRoles": true,
     "isAuthority": true,
 
-    "owners": ["470548458072440842"],
-    "roles": ["1266884045325865051"]
+    "owners": [],
+    "roles": [],
+    "LogChannel": "1279715642005651466"
 }
