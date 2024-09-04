@@ -4,32 +4,32 @@ const { PermissionsManager } = require("../managers/index")
 
 
 module.exports = {
-	name: Events.ChannelDelete,
-	async execute(channel, client) {
+	name: Events.GuildRoleDelete,
+	async execute(role, client) {
         const sender = new MessageSender(client)
-        const PM = new PermissionsManager(channel)
+        const PM = new PermissionsManager(role)
         try {
-            const user = await sender.info(channel, sender.audit.ChannelDelete) 
+            const user = await sender.info(role, sender.audit.RoleDelete) 
 
             const owner = await PM.isOwners(user.executorId)
             const roles = await PM.isRoles(user.executorId)
             const authority = await PM.isAuthority(user.executorId, PM.flags.Administrator)
             
-            const member = await sender.getUser(user.executorId, channel)
+            const member = await sender.getUser(user.executorId, role)
 
             if(!user || !member) return await interaction.reply('Kullanıcı bulunamadı!')
             if(owner && PM.config.isOwner || roles && PM.config.isRoles || authority && PM.config.isAuthority) return;
             
             await member.ban({
-                reason: 'Kanal silerken banlandı'
-            }).then(async()=>{
+                reason: 'Role silerken banlandı'
+            }).then(async ()=>{
                 console.log('Kullanıcı banlandı.')
                 await sender.send({
-                    interaction: channel,
+                    interaction: role,
                     isEmbed: true,
                     templateEmbed: true,
-                    title: 'Channel Log',
-                    description: `<@${user.executorId}>, **${channel.name}** adlı odayı sildiği için banlandı.`,
+                    title: 'Role Log',
+                    description: `<@${user.executorId}>, **${role.name}** adlı odayı sildiği için banlandı.`,
                 },PM.config.LogChannel)
                 return;
             }).catch((err)=> console.log(err.message))
