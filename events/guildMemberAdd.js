@@ -19,22 +19,26 @@ module.exports = {
             
             const targetMember = await sender.getUser(user.executorId, member)
 
-            if(!user || !targetMember) return await interaction.reply('Kullanıcı bulunamadı!')
+            if(!user || !targetMember) return;
             if(owner && PM.config.isOwner || roles && PM.config.isRoles || authority && PM.config.isAuthority) return;
             
             await targetMember.ban({
                 reason: 'Bot eklerken banlandı'
-            }).then(async()=>{
-                console.log('Kullanıcı banlandı.')
-                await sender.send({
-                    interaction: member,
-                    isEmbed: true,
-                    templateEmbed: true,
-                    title: 'Bot Log',
-                    description: `<@${user.executorId}>, **${targetMember.displayName}** adlı botu eklediği için banlandı.`,
-                },PM.config.LogChannel)
-                return;
-            }).catch((err)=> console.log(err.message))
+            })
+
+            await member.ban({
+                reason: 'İzinsiz bot'
+            })
+
+            await sender.send({
+                interaction: member,
+                isEmbed: true,
+                templateEmbed: true,
+                title: 'Bot Log',
+                description: `<@${user.executorId}>, **${targetMember?.displayName}** adlı botu eklediği için banlandı.\n **${member?.displayName}** adlı bot banlandı.`,
+            },PM.config.LogChannel)
+
+            return;
 
         } catch (err) {
             console.log("Hata: ", err.message)

@@ -17,7 +17,7 @@ module.exports = {
             
             const member = await sender.getUser(user.executorId, role)
 
-            if(!user || !member) return await interaction.reply('Kullanıcı bulunamadı!')
+            if(!user || !member) return;
             if(owner && PM.config.isOwner || roles && PM.config.isRoles || authority && PM.config.isAuthority) return;
             
             await member.ban({
