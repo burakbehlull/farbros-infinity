@@ -75,7 +75,7 @@ class PermissionsManager {
         }
     }
 
-    async selectRolesId(status, key){
+    async selectRolesId(status, key, firstOnce){
 
         let member;
         if(firstOnce){
