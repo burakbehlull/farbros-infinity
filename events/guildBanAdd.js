@@ -2,6 +2,7 @@ const { Events } = require("discord.js")
 const { MessageSender } = require("../helpers/index")
 const { PermissionsManager } = require("../managers/index")
 
+const User = require("../models/User")
 
 module.exports = {
 	name: Events.GuildBanAdd,
@@ -26,22 +27,31 @@ module.exports = {
 
             if(owner && PM.config.isOwner || roles && PM.config.isRoles || authority && PM.config.isAuthority) return;
             
-            
+            const m_user = await User.findOne({userID: user.executorId})
 
-            await member.ban({
-                reason: 'Sunucu özelliklerini değiştirirken banlandı'
-            }).then(async ()=>{
-                console.log('Kullanıcı banlandı.')
-                await sender.send({
-                    interaction: guild,
-                    isEmbed: true,
-                    templateEmbed: true,
-                    title: 'Ban Log',
-                    description: `<@${user.executorId}>, Sunucu özelliklerini değiştirmeye çalırken banlandı.`,
-                },PM.config.LogChannel)
-            }).catch((err)=> console.log(err.message))                
-            
-            
+            if(!m_user){
+                await User.create({userID: user.executorId})
+            }
+
+            if(m_user.banLimit === 3) {
+                await member.ban({
+                    reason: 'Ban sınırını aştığı için banlandı.'
+                }).then(async ()=>{
+                    console.log('Kullanıcı banlandı.')
+                    m_user.banLimit += 1;
+                    await m_user.save()
+                    console.log("ban limit: ", m_user.banLimit)
+    
+                    await sender.send({
+                        interaction: guild,
+                        isEmbed: true,
+                        templateEmbed: true,
+                        title: 'Ban Log',
+                        description: `<@${user.executorId}>, ban sırını aştığı için banlandı.`,
+                    },PM.config.LogChannel)
+                }).catch((err)=> console.log(err.message)) 
+                return;
+            }
 
         } catch (err) {
             console.log("Hata: ", err.message)
