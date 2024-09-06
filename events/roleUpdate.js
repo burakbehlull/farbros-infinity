@@ -16,7 +16,7 @@ module.exports = {
             const authority = await PM.isAuthority(user.executorId, PM.flags.Administrator)
             
             const member = await sender.getUser(user.executorId, oldRole)
-
+            console.log(user.executorId === process.env.BOT_ID)
             if (user.executorId === process.env.BOT_ID) return;
 
             if(!user || !member) {
