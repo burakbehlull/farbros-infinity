@@ -2,6 +2,7 @@ const { Client, GatewayIntentBits, Collection, ActivityType } = require('discord
 const path = require('path')
 const fs = require('fs')
 require('dotenv').config()
+require('./config/db').db()
 
 const client = new Client({
     intents: Object.keys(GatewayIntentBits).map((intent) => GatewayIntentBits[intent])

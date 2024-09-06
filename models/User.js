@@ -8,8 +8,7 @@ const userSchema = new Schema({
         trim: true
     },
     banLimit: {
-        type: Number,
-        default: 0
+        type: Number
     }
 })
 

@@ -9,4 +9,6 @@ const db = () => {
     return idb
 }
 
-export default db
+module.exports = {
+    db
+}
