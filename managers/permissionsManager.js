@@ -62,6 +62,49 @@ class PermissionsManager {
 
         }
     }
+
+    async selectOwnerIds(status, key, userId){
+        const getConfig = this.config[key]
+        if(!getConfig || !key) {
+            console.log(key+' geçersiz key')
+            return;
+        }
+
+        if(status && getConfig && userId){
+            return getConfig.includes(userId)
+        }
+    }
+
+    async selectRolesId(status, key){
+
+        let member;
+        if(firstOnce){
+            member = this.interaction.members.cache.get(userId)
+        } else {
+            member = this.interaction.guild.members.cache.get(userId)
+        }
+
+        const getConfig = this.config[key]
+
+        if(!getConfig || !key) {
+            console.log(key+' geçersiz key')
+            return;
+        }
+
+        if(status && getConfig){
+			let statusPromises = getConfig.map(async (role) => {
+				let hasRole = await member.roles.cache.has(role)
+				return hasRole
+			})
+
+			let statusAll = await Promise.all(statusPromises)
+
+			let hasRoleStatus = statusAll.includes(true)
+
+			return hasRoleStatus
+        }
+    }
+    
 }
 module.exports = {
     PermissionsManager

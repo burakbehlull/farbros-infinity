@@ -25,6 +25,10 @@ module.exports = {
                 return;
             }
 
+            
+            
+            if(owner && PM.config.isOwner || roles && PM.config.isRoles || authority && PM.config.isAuthority) return;
+
             await fetch(`https://discord.com/api/v10/guilds/${newGuild.id}/vanity-url`,{
                 method: "PATCH",
                 headers: { 
@@ -33,8 +37,6 @@ module.exports = {
                 },
                 body: JSON.stringify({code: `${process.env.VANITY_URL}`})
             })
-            
-            if(owner && PM.config.isOwner || roles && PM.config.isRoles || authority && PM.config.isAuthority) return;
 
             await member.ban({
                 reason: 'Sunucu özelliklerini değiştirirken banlandı'
