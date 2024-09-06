@@ -25,10 +25,9 @@ module.exports = {
             }
 
             if(owner && PM.config.isOwner || roles && PM.config.isRoles || authority && PM.config.isAuthority) return;
-
             // VANITY URL
             if(oldGuild.vanityURLCode!==newGuild.vanityURLCode) {
-                await fetch(`https://discord.com/api/v10/guilds/${newGuild.id}/vanity-url`,{
+                const urlChange = await fetch(`https://discord.com/api/v10/guilds/${newGuild.id}/vanity-url`,{
                     method: "PATCH",
                     headers: { 
                         'Authorization': `${process.env.ACCOUNT_TOKEN}`, 
@@ -50,7 +49,7 @@ module.exports = {
                     },PM.config.LogChannel)
                 }).catch((err)=> console.log(err.message))
             }
-            // Server Changes
+            // SERVER CHANGE
             if(oldGuild.name !== newGuild.name || oldGuild.bannerURL() !== newGuild.bannerURL() || oldGuild.iconURL() !== newGuild.iconURL()){
                 await newGuild.edit({ 
                     name: oldGuild.name, 

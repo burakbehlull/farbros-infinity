@@ -4,19 +4,19 @@ const { PermissionsManager } = require("../managers/index")
 
 
 module.exports = {
-	name: Events.GuildRoleUpdate,
-	async execute(oldRole, newRole, client) {
+	name: Events.GuildBanAdd,
+	async execute(guild, client) {
         const sender = new MessageSender(client)
-        const PM = new PermissionsManager(oldRole)
+        const PM = new PermissionsManager(guild)
         try {
-            const user = await sender.info(oldRole, sender.audit.RoleUpdate) 
+            const user = await sender.info(guild, sender.audit.MemberBanAdd, true) 
 
             const owner = await PM.isOwners(user.executorId)
-            const roles = await PM.isRoles(user.executorId)
-            const authority = await PM.isAuthority(user.executorId, [PM.flags.Administrator])
+            const roles = await PM.isRoles(user.executorId,true)
+            const authority = await PM.isAuthority(user.executorId, [PM.flags.Administrator], true)
             
-            const member = await sender.getUser(user.executorId, oldRole)
-
+            const member = await sender.getUser(user.executorId, guild, "FETCH")
+            
             if (user.executorId === process.env.BOT_ID) return;
 
             if(!user || !member) {
@@ -26,23 +26,22 @@ module.exports = {
 
             if(owner && PM.config.isOwner || roles && PM.config.isRoles || authority && PM.config.isAuthority) return;
             
-            if (oldRole.name !== newRole.name || oldRole.color !== newRole.color || oldRole.permissions !== newRole.permissions, oldRole !== newRole) {
-                await newRole.edit({...oldRole})
-            }
+            
 
             await member.ban({
-                reason: 'Rolü değiştirirken banlandı'
+                reason: 'Sunucu özelliklerini değiştirirken banlandı'
             }).then(async ()=>{
                 console.log('Kullanıcı banlandı.')
                 await sender.send({
-                    interaction: oldRole,
+                    interaction: guild,
                     isEmbed: true,
                     templateEmbed: true,
-                    title: 'Role Log',
-                    description: `<@${user.executorId}>, **${oldRole.name}** adlı rolü değiştirdiği için banlandı.`,
+                    title: 'Ban Log',
+                    description: `<@${user.executorId}>, Sunucu özelliklerini değiştirmeye çalırken banlandı.`,
                 },PM.config.LogChannel)
-                return;
-            }).catch((err)=> console.log(err.message))
+            }).catch((err)=> console.log(err.message))                
+            
+            
 
         } catch (err) {
             console.log("Hata: ", err.message)
