@@ -15,7 +15,7 @@ module.exports = {
 
             const owner = await PM.isOwners(user.executorId)
             const roles = await PM.isRoles(user.executorId)
-            const authority = await PM.isAuthority(user.executorId, PM.flags.Administrator)
+            const authority = await PM.isAuthority(user.executorId, [PM.flags.Administrator])
             
             const targetMember = await sender.getUser(user.executorId, member)
 

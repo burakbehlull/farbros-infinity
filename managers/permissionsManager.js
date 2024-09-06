@@ -16,9 +16,14 @@ class PermissionsManager {
             return owners.includes(userId)
         }
     }
-    async isRoles(userId){
+    async isRoles(userId, firstOnce){
         if(!userId) return
-        const member = this.interaction.guild.members.cache.get(userId)
+        let member;
+        if(firstOnce){
+            member = this.interaction.members.cache.get(userId)
+        } else {
+            member = this.interaction.guild.members.cache.get(userId)
+        }
         const { isRoles, roles } = this.config
         if(isRoles){
 			let statusPromises = roles.map(async (role) => {
@@ -34,9 +39,17 @@ class PermissionsManager {
         }
 
     }
-    async isAuthority(userId,...authorities){
+    async isAuthority(userId, authorities, firstOnce){
         if(this.config.isAuthority && authorities){
-            const member = this.interaction.guild.members.cache.get(userId)
+            
+            let member;
+            
+            if(firstOnce){
+                member = this.interaction.members.cache.get(userId)
+            } else {
+                member = this.interaction.guild.members.cache.get(userId)
+            }
+
             const result = authorities.map((authority)=> {
                 const isHasAuthority =  member.permissions.has(authority)
                 if(isHasAuthority){

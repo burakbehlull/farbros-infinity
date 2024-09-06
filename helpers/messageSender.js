@@ -31,10 +31,19 @@ class MessageSender {
             console.log("Hata:", err.message)
         }
     }
-    async getUser(userId, interaction){
+    async getUser(userId, interaction, firstOnce){
         if(!userId) return
         const target = interaction ?? this.client
-        const user = await target.guild.members.cache.get(userId)
+        let user;
+        if(firstOnce=="FETCH"){
+            user = await target.members.fetch(userId)
+        } else if(firstOnce==true){
+            console.log(2)
+            user = await target.members.cache.get(userId)
+        } else {
+            user = await target.guild.members.cache.get(userId)
+        }
+        
         return user
     }
     async getChannel(channelId, interaction){
