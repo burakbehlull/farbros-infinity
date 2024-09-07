@@ -79,9 +79,8 @@ class MessageSender {
         
         const IEmbed = new EmbedBuilder(TemplateEmbed)
         const target = embed.interaction ? embed.interaction : this.client
-        const getChannel = target.guild.channels.cache.get(channelId)
+        const getChannel = await target.guild.channels.cache.get(channelId)
         const channel = channelId ? getChannel : target.channel
-
         if(embed.isEmbed && !embed.text && !embed.reply){
             if(embed.title) IEmbed.setTitle(embed.title)
             if(embed.description) IEmbed.setDescription(embed.description)
