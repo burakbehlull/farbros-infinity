@@ -10,6 +10,8 @@ module.exports = {
         const sender = new MessageSender(client)
         const PM = new PermissionsManager(guild)
         try {
+            if(!PM.config.isBanGuard) return
+
             const user = await sender.info(guild, sender.audit.MemberBanAdd) 
 
             const owner = await PM.isOwners(user.executorId)

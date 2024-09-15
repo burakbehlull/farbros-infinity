@@ -9,6 +9,8 @@ module.exports = {
         const sender = new MessageSender(client)
         const PM = new PermissionsManager(member)
         try {
+            if(!PM.config.isKickGuard) return
+
             const user = await sender.info(member, sender.audit.MemberKick) 
 
             const owner = await PM.isOwners(user.executorId)

@@ -9,6 +9,8 @@ module.exports = {
         const sender = new MessageSender(client)
         const PM = new PermissionsManager(oldChannel)
         try {
+            if(!PM.config.isChannelUpdate) return
+
             const user = await sender.info(oldChannel, sender.audit.ChannelUpdate) 
 
             const owner = await PM.isOwners(user.executorId)

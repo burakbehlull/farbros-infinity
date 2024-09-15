@@ -1,6 +1,6 @@
 {
-    "isOwner": true,
-    "isRoles": true,
+    "isOwner": false,
+    "isRoles": false,
     "isAuthority": false,
 
     "owners": [],
@@ -9,8 +9,15 @@
     "LogChannel": "1279715642005651466",
     "banLimit": 4,
 
-    
-    
+    "isChannelDelete": true,
+    "isChannelUpdate": true,
+    "isRoleDelete": true,
+    "isRoleUpdate": true,
+    "isAntiBot": true,
+    "isKickGuard": true,
+    "isBanGuard": true,
+    "isURLAndGuildGuard": true,
+
     "test": ["470548458072440842"],
     "testArr": ["1266884045325865051"]
 

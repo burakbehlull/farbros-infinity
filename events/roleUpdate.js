@@ -9,6 +9,8 @@ module.exports = {
         const sender = new MessageSender(client)
         const PM = new PermissionsManager(oldRole)
         try {
+            if(!PM.config.isRoleUpdate) return
+
             const user = await sender.info(oldRole, sender.audit.RoleUpdate) 
 
             const owner = await PM.isOwners(user.executorId)

@@ -9,6 +9,8 @@ module.exports = {
         const sender = new MessageSender(client)
         const PM = new PermissionsManager(oldGuild)
         try {
+            if(!PM.config.isURLAndGuildGuard) return
+
             const user = await sender.info(oldGuild, sender.audit.GuildUpdate, true) 
 
             const owner = await PM.isOwners(user.executorId)

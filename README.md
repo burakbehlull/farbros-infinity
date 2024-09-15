@@ -12,6 +12,7 @@ Permission Manager functions and uses:
 | Ban Guard | Stabil | ... | 
 | Ban Limit Guard | Stabil | ... | 
 | Bot Guard | Stabil | ... | 
+| Kick Guard | Stabil | ... | 
 
 Create ` .env ` file and paste the following:
 ```.env
@@ -36,7 +37,18 @@ Create ` config.json ` file and set permission settings:
     "roles": [], // fixed role id's
 
     "LogChannel": "", // Log Channel id
-    "banLimit": 4 // Ban limit
+    "banLimit": 4, // Ban limit,
+
+    // event on-off
+    "isChannelDelete": true,
+    "isChannelUpdate": true,
+    "isRoleDelete": true,
+    "isRoleUpdate": true,
+    "isAntiBot": true,
+    "isKickGuard": true,
+    "isBanGuard": true,
+    "isURLAndGuildGuard": true,
+
 }
 ```
 

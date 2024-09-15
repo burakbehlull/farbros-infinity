@@ -10,6 +10,7 @@ module.exports = {
         const PM = new PermissionsManager(member)
         const isBot = member.user.bot
         try {
+            if(!PM.config.isAntiBot) return
             if(!isBot) return
             const user = await sender.info(member, sender.audit.BotAdd) 
 
