@@ -13,6 +13,7 @@ Permission Manager functions and uses:
 | Ban Limit Guard | Stabil | ... | 
 | Bot Guard | Stabil | ... | 
 | Kick Guard | Stabil | ... | 
+| Role Backup | Stabil | ... | 
 
 Create ` .env ` file and paste the following:
 ```.env
