@@ -54,7 +54,7 @@ Create ` config.json ` file and set permission settings:
 ```
 
 
-Permission Manager functions and uses:
+**Permission Manager** functions and uses:
 | Function | Values | Use | 
 | -------- | -------- | -------- | 
 | .isOwners() | userId | ... | 
@@ -65,3 +65,8 @@ Permission Manager functions and uses:
 
 Values ​​accessible from class:
 ` interaction `, ` config (config.json)`, ` flags (PermissionsBitField) `
+
+**Punish Manager** functions and uses:
+| Function | Values | Use | About |
+| -------- | -------- | -------- |-------- |
+| .deleteAuthorityRoles() | userId, permissons | .deleteAuthorityRoles(userId, [ PUM.flags.Administrator, PUM.flags.ManageRoles ]) | Deletes authority roles on the user |

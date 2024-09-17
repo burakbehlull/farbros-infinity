@@ -11,15 +11,15 @@ module.exports = {
         try {
             if(!PM.config.isChannelUpdate) return
 
+            
             const user = await sender.info(oldChannel, sender.audit.ChannelUpdate) 
-
+            
             const owner = await PM.isOwners(user.executorId)
             const roles = await PM.isRoles(user.executorId)
             const authority = await PM.isAuthority(user.executorId, [PM.flags.Administrator])
             
             const member = await sender.getUser(user.executorId, oldChannel)
-
-            console.log(user.executorId === process.env.BOT_ID)
+            
             if (user.executorId === process.env.BOT_ID) return;
 
             if(!user || !member) {
