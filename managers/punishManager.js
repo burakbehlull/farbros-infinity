@@ -41,10 +41,31 @@ class PunishManager {
             console.error('Hata:', error)
         }
     }
+    async deleteUserRoles(userId){
+        
+        try {
+            const member = this.interaction.guild.members.cache.get(userId)
+            if (!member) return
+
+            const roles = member.roles.cache.filter(role => role.id !== interaction.guild.id)
+
+            if (roles.size === 0) return
+
+            for (const role of roles.values()) {
+                await member.roles.remove(role);
+            }  
+        } catch (error) {
+            console.log('Hata: ', error.message)
+        }
+    }
     async jail(userId, jailRoleId){
         const jailRolesId = jailRoleId ?? this.config.jailRoleId
-        const member = await this.interaction.guild.members.cache.get(userId)
-        await member.roles.add(jailRolesId)
+        try {
+            const member = await this.interaction.guild.members.cache.get(userId)
+            await member.roles.add(jailRolesId)
+        } catch (error) {
+            console.log('Hata: ', error.message)
+        }
 
     }
 
