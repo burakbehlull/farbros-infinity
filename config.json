@@ -18,6 +18,8 @@
     "isBanGuard": true,
     "isURLAndGuildGuard": true,
 
+    "jailRoleId": "",
+
     "test": ["470548458072440842"],
     "testArr": ["1266884045325865051"]
 

@@ -38,7 +38,6 @@ class MessageSender {
         if(firstOnce=="FETCH"){
             user = await target.members.fetch(userId)
         } else if(firstOnce==true){
-            console.log(2)
             user = await target.members.cache.get(userId)
         } else {
             user = await target.guild.members.cache.get(userId)

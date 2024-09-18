@@ -9,7 +9,7 @@ class PunishManager {
     }
 
     async deleteAuthorityRoles(userId, permissionsArr) {
-        const member = this.interaction.guild.members.cache.get(userId)
+        const member = await this.interaction.guild.members.cache.get(userId)
         if (!member) {
             console.log('Kullanıcı bulunamadı!')
             return;
@@ -36,10 +36,18 @@ class PunishManager {
             for (const role of rolesWithPermissions) {
                 await member.roles.remove(role)
             }
+            return true
         } catch (error) {
             console.error('Hata:', error)
         }
     }
+    async jail(userId, jailRoleId){
+        const jailRolesId = jailRoleId ?? this.config.jailRoleId
+        const member = await this.interaction.guild.members.cache.get(userId)
+        await member.roles.add(jailRolesId)
+
+    }
+
     
 }
 
