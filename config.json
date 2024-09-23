@@ -20,6 +20,10 @@
     "isRoleAuthorityProtection": true,
     "isWebEntry": false,
     
+    "backup": {
+        "serverId": "",
+        "roleBackup": true
+    },
 
     "jailRoleId": "",
 

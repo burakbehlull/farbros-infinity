@@ -1,5 +1,5 @@
 const RoleBackup = require("../models/RoleBackup")
-
+const { backup } = require('../config.json')
 class Backup {
     constructor(interaction){
         if(!interaction) return
@@ -8,7 +8,9 @@ class Backup {
 
     async roles(){
         try {
-            const roles = this.interaction.guild.roles.cache
+            const guild = await this.interaction.guilds.fetch(backup.serverId)
+            const roles = await guild.roles.cache
+
             for (const [roleId, role] of roles) {
                 if (role.managed) continue
 
@@ -17,7 +19,7 @@ class Backup {
                     username: member.user.tag
                 }))
 
-                const existingBackup = await RoleBackup.findOne({ roleId, guildId: this.interaction.guild.id })
+                const existingBackup = await RoleBackup.findOne({ roleId, guildId: guild.id })
 
                 if (existingBackup) {
                     existingBackup.members = members
@@ -31,7 +33,7 @@ class Backup {
                         roleName: role.name,
                         roleColor: role.hexColor,
                         members,
-                        guildId: this.interaction.guild.id
+                        guildId: guild.id
                     })
                     await newBackup.save()
                 }
