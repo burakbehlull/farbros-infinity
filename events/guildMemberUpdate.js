@@ -19,7 +19,7 @@ module.exports = {
             const targetUser = user.target.id
             const bot = user.executor.bot
             
-            if(bot || givingUser===targetUser) return;
+            if(bot || givingUser==targetUser) return;
 
             const owner = await PM.isOwners(givingUser)
             const roles = await PM.isRoles(givingUser)
