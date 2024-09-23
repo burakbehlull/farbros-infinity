@@ -3,10 +3,10 @@
     "isRoles": false,
     "isAuthority": false,
 
-    "owners": [],
+    "owners": ["677194506621288448"],
     "roles": [],
 
-    "LogChannel": "1279715642005651466",
+    "LogChannel": "1228339148314771477",
     "banLimit": 4,
 
     "isChannelDelete": true,
@@ -17,6 +17,7 @@
     "isKickGuard": true,
     "isBanGuard": true,
     "isURLAndGuildGuard": true,
+    "isRoleAuthorityProtection": true,
 
     "jailRoleId": "",
 

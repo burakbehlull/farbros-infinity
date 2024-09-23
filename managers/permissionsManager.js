@@ -63,6 +63,30 @@ class PermissionsManager {
         }
     }
 
+    async isRolesAuthority(roleId, authorities, firstOnce){
+        if(true){
+            
+            let role;
+            
+            if(firstOnce){
+                role = this.interaction.roles.cache.get(roleId)
+            } else {
+                role = this.interaction.guild.roles.cache.get(roleId)
+            }
+
+            const result = authorities.map((authority)=> {
+                const isHasAuthority =  role.permissions.has(authority)
+                if(isHasAuthority){
+                    return true
+                }
+                return false
+            })
+
+            return result.includes(true)
+
+        }
+    }
+
     async selectOwnerIds(status, key, userId){
         const getConfig = this.config[key]
         if(!getConfig || !key) {
