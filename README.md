@@ -14,6 +14,7 @@ Permission Manager functions and uses:
 | Bot Guard | Stabil | ... | 
 | Kick Guard | Stabil | ... | 
 | Role Backup | Stabil | ... | 
+| Right Click Delegation Protection | Stabil | ... | 
 
 Create ` .env ` file and paste the following:
 ```.env
@@ -49,7 +50,7 @@ Create ` config.json ` file and set permission settings:
     "isKickGuard": true,
     "isBanGuard": true,
     "isURLAndGuildGuard": true,
-
+    "isRoleAuthorityProtection": true
 }
 ```
 
@@ -60,6 +61,7 @@ Create ` config.json ` file and set permission settings:
 | .isOwners() | userId | ... | 
 | .isRoles() | userId, firstOnce | ... | 
 | .isAuthority() | userId, authorities, firstOnce | .isAuthority(userId, new PermissionManager().flags.Administrator) | 
+| .isRolesAuthority() | roleId, authorities, firstOnce | .isAuthority(roleId, new PermissionManager().flags.Administrator) | 
 | .selectOwnerIds() | status, key, userId | ... | 
 | .selectRolesId() | status, key, userId, firstOnce | For example, you can open "whitelist": [user ids] in config.json and then use the whitelist as the key and use the incoming id as a fixed list. | 
 
@@ -70,3 +72,5 @@ Values ​​accessible from class:
 | Function | Values | Use | About |
 | -------- | -------- | -------- |-------- |
 | .deleteAuthorityRoles() | userId, permissons | .deleteAuthorityRoles(userId, [ PUM.flags.Administrator, PUM.flags.ManageRoles ]) | Deletes authority roles on the user |
+| .deleteUserRoles() | userId | ... | Deletes all roles on the user |
+| .jail() | userId, jailRoleId? | ... | Puts users in jail |
