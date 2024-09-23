@@ -15,6 +15,7 @@ Permission Manager functions and uses:
 | Kick Guard | Stabil | ... | 
 | Role Backup | Stabil | ... | 
 | Right Click Delegation Protection | Stabil | ... | 
+| Web Entry Guard | Stabil | ... | 
 
 Create ` .env ` file and paste the following:
 ```.env
@@ -50,7 +51,8 @@ Create ` config.json ` file and set permission settings:
     "isKickGuard": true,
     "isBanGuard": true,
     "isURLAndGuildGuard": true,
-    "isRoleAuthorityProtection": true
+    "isRoleAuthorityProtection": true,
+    "isWebEntry": false,
 }
 ```
 

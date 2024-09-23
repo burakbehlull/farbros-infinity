@@ -18,6 +18,8 @@
     "isBanGuard": true,
     "isURLAndGuildGuard": true,
     "isRoleAuthorityProtection": true,
+    "isWebEntry": false,
+    
 
     "jailRoleId": "",
 

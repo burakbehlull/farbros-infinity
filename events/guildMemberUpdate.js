@@ -6,12 +6,13 @@ module.exports = {
 	name: Events.GuildMemberUpdate,
 	async execute(oldMember, newMember, client) {
         try {
-            if(!PM.config.isRoleAuthorityProtection) return
             
-            const sender = new MessageSender(newMember)
             const PM = new PermissionsManager(newMember)
+            const sender = new MessageSender(newMember)
             const PUM = new PunishManager(newMember)
 
+            if(!PM.config.isRoleAuthorityProtection) return
+            
             const user = await sender.info(oldMember, sender.audit.MemberRoleUpdate)
 
             const givingUser = user.executor.id
@@ -22,7 +23,7 @@ module.exports = {
 
             const owner = await PM.isOwners(givingUser)
             const roles = await PM.isRoles(givingUser)
-            const authority = await PM.isAuthority(givingUser, [PM.flags.Administrator], true)
+            const authority = await PM.isAuthority(givingUser, [PM.flags.Administrator])
             if(owner && PM.config.isOwner || roles && PM.config.isRoles || authority && PM.config.isAuthority) return;
             
             const oldRoles = oldMember.roles.cache
@@ -47,7 +48,7 @@ module.exports = {
                             interaction: oldMember,
                             isEmbed: true,
                             templateEmbed: true,
-                            title: 'Channel Log',
+                            title: 'User Log',
                             description: `<@${givingUser}>, <@${targetUser}> üstüne yetki verdiği için, tüm yetki rolleri çekildi..`,
                         },PM.config.LogChannel)
                     }
