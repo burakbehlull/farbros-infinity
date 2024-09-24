@@ -11,6 +11,7 @@ const client = new Client({
 const base = new Base(client)
 base.loadCommands()
 base.loadEvents()
+base.loadJobs()
 
 client.on('messageCreate', async (msg)=>{
 	if(msg.content == "yt"){
