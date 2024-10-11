@@ -1,4 +1,5 @@
 const { ActivityType, Collection } = require('discord.js')
+const { error } = require('node:console')
 const fs = require('node:fs')
 const path = require('node:path')
 
@@ -48,6 +49,39 @@ class Base {
             console.log('Hata: ', error.message)
         }
     }
+
+    loadJobs() {
+        try {
+            const jobPath = path.join(__dirname, '..', 'jobs');
+            const jobFiles = fs.readdirSync(jobPath)
+                .filter(file => file.endsWith('.js'));
+                let failedFileCount = 0;
+            
+            for (const file of jobFiles) {
+                const filePath = path.join(jobPath, file);
+                const job = require(filePath);
+                const eventName = job.eventName || 'READY';
+    
+                if (job.isExecutableOnLoaded) {
+                    this.client.once(eventName, (...args) => job.execute(...args, this.client));
+                }
+    
+                if (job.time) {
+                    setInterval(() => {
+                        job.execute(this.client);
+                    }, job.time);
+                } else {
+                    failedFileCount++;
+                    console.error(`${file} file doesn't have a invalid time property!`);
+                }
+            }
+    
+            console.log(`${jobFiles.length - failedFileCount} tane zamanlanmış işlem dosyası yüklendi.`);
+        } catch (error) {
+            console.log('Hata: ', error.message);
+        }
+    }
+    
     login(){
         this.client.login(process.env.TOKEN)
     }
