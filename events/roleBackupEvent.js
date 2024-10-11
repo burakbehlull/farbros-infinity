@@ -4,7 +4,7 @@ const { backup } = require('../config.json')
 
 module.exports = {
 	name: Events.ClientReady,
-	async execute(member) {
+	async execute(member, client) {
         if(!backup.roleBackup) return
         const file = await Timer(member, true)
         if (file.executeOnLoaded) {
