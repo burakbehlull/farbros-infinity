@@ -18,7 +18,7 @@ module.exports = {
             const PM = new PermissionsManager(interaction)
             const IsRoles = await PM.isRoles()
             const IsOwners = await PM.isOwners(userId)
-            const IsAuthority = await PM.isAuthority(PM.flags.Administrator)
+            const IsAuthority = await PM.isAuthority(userId, [PM.flags.Administrator])
             
             if(PM.config.isRoles && !IsRoles || PM.config.isOwner && !IsOwners || PM.config.isAuthority && !IsAuthority) return await interaction.reply("Yetersiz yetki!")
         
