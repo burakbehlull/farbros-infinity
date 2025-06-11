@@ -16,7 +16,7 @@ module.exports = {
             const owner = await PM.isOwners(user.executorId)
             const roles = await PM.isRoles(user.executorId)
             const authority = await PM.isAuthority(user.executorId, [PM.flags.Administrator])
-            
+            console.log(owner, roles, authority)
             const member = await sender.getUser(user.executorId, oldRole)
 
             if (user.executorId === process.env.BOT_ID) return;
@@ -31,7 +31,9 @@ module.exports = {
             if (oldRole.name !== newRole.name || oldRole.color !== newRole.color || oldRole.permissions !== newRole.permissions, oldRole !== newRole) {
                 await newRole.edit({...oldRole})
             }
-
+			
+			await console.log("update")
+			/*
             await member.ban({
                 reason: 'Rolü değiştirirken banlandı'
             }).then(async ()=>{
@@ -45,7 +47,7 @@ module.exports = {
                 },PM.config.LogChannel)
                 return;
             }).catch((err)=> console.log(err.message))
-
+			*/
         } catch (err) {
             console.log("Hata: ", err.message)
         }

@@ -1,12 +1,12 @@
 {
     "isOwner": true,
-    "isRoles": false,
-    "isAuthority": false,
+    "isRoles": true,
+    "isAuthority": true,
 
-    "owners": ["677194506621288448"],
+    "owners": [],
     "roles": [],
 
-    "LogChannel": "1228339148314771477",
+    "LogChannel": "",
     "banLimit": 4,
 
     "isChannelDelete": true,
@@ -21,13 +21,8 @@
     "isWebEntry": false,
     
     "backup": {
-        "serverId": "1145799660083093515",
         "roleBackup": true
     },
 
-    "jailRoleId": "",
-
-    "test": ["470548458072440842"],
-    "testArr": ["1266884045325865051"]
-
+    "jailRoleId": ""
 }

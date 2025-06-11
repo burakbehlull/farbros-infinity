@@ -2,13 +2,12 @@ const RoleBackup = require("../models/RoleBackup")
 const { backup } = require('../config.json')
 class Backup {
     constructor(interaction){
-        if(!interaction) return
         this.interaction = interaction
     }
 
     async roles(){
         try {
-            const guild = await this.interaction.guilds.fetch(backup.serverId)
+            const guild = await this.interaction.client.guilds.fetch(this.interaction.guildId)
             const roles = await guild.roles.cache
 
             for (const [roleId, role] of roles) {
