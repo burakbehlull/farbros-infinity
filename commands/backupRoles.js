@@ -25,13 +25,14 @@ module.exports = {
 				
 			const ctrl = checks.includes(true)
 			if(!ctrl) return await interaction.reply("Yetersiz yetki!")
-				
+
             const backup = new Backup(interaction)
             await backup.roles()
 
             await interaction.reply({
                 content: 'Tüm roller ve üyeler başarıyla yedeklendi!',
             })
+			
         } catch (error) {
             console.error(error)
             await interaction.reply({
