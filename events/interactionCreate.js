@@ -15,7 +15,7 @@ module.exports = {
 		try {
 			await command.execute(interaction)
 		} catch (error) {
-			console.error(`Hata: ${interaction.commandName}`)
+			console.error(`[InteractionCreate] Hata: ${interaction.commandName}`)
 			console.error(error);
 		}
 	},

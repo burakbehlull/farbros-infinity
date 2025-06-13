@@ -65,7 +65,7 @@ module.exports = {
 
             return;
         } catch (err) {
-            console.log("Hata: ", err.message)
+            console.log("[RoleDelete] Hata: ", err.message)
         }
     },
 }

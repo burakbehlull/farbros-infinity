@@ -36,14 +36,10 @@ module.exports = {
                     reason: 'Sağ tık Kick sebebiyle'
                 })
             }
-
-
-            
-
             return;
 
         } catch (err) {
-            console.log("Hata: ", err.message)
+            console.log("[GuildMemberRemove] Hata: ", err.message)
         }
     },
 }

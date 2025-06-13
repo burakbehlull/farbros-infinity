@@ -37,7 +37,7 @@ module.exports = {
             }).catch((err)=> console.log(err.message))
 
         } catch (err) {
-            console.log("Hata: ", err.message)
+			console.log("[ChannelDelete] Hata: ", err.message)
         }
     },
 }

@@ -57,7 +57,7 @@ module.exports = {
             }
 
         } catch (err) {
-            console.log("Hata: ", err.message)
+            console.log("[GuildBanAdd] Hata: ", err.message)
         }
     },
 }

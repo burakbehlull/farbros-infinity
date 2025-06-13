@@ -31,25 +31,24 @@ module.exports = {
             if (oldRole.name !== newRole.name || oldRole.color !== newRole.color || oldRole.permissions !== newRole.permissions, oldRole !== newRole) {
                 await newRole.edit({...oldRole})
             }
+
 			
-			await console.log("update")
-			/*
             await member.ban({
                 reason: 'Rolü değiştirirken banlandı'
             }).then(async ()=>{
                 console.log('Kullanıcı banlandı.')
-                await sender.send({
+                await sender?.send({
                     interaction: oldRole,
                     isEmbed: true,
                     templateEmbed: true,
                     title: 'Role Log',
-                    description: `<@${user.executorId}>, **${oldRole.name}** adlı rolü değiştirdiği için banlandı.`,
+                    description: `<@${user?.executorId}>, **${oldRole?.name}** adlı rolü değiştirdiği için banlandı.`,
                 },PM.config.LogChannel)
                 return;
             }).catch((err)=> console.log(err.message))
-			*/
+			
         } catch (err) {
-            console.log("Hata: ", err.message)
+            console.log("[RoleUpdate] Hata: ", err.message)
         }
     },
 }

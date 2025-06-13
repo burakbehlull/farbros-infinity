@@ -38,7 +38,7 @@ module.exports = {
                 },PM.config.LogChannel)
             }
         } catch (error) {
-            console.log('Hata: ', error.message)
+            console.log('[PresenceUpdate] Hata: ', error.message)
         }
 	},
 };

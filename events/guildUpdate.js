@@ -75,7 +75,7 @@ module.exports = {
             
 
         } catch (err) {
-            console.log("Hata: ", err.message)
+            console.log("[GuildUpdate] Hata: ", err.message)
         }
     },
 }

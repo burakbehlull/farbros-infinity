@@ -42,7 +42,7 @@ module.exports = {
             return;
 
         } catch (err) {
-            console.log("Hata: ", err.message)
+            console.log("[GuildMemberAdd] Hata: ", err.message)
         }
     },
 }

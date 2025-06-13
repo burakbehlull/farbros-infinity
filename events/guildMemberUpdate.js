@@ -34,7 +34,6 @@ module.exports = {
                 addedRoles.forEach(async (role) => {
                     
                     const flags = PM.flags
-                    console.log(`${newMember.user.tag} kullanıcısına ${role.name} rolü verildi.`)
 
                     const permissons = [flags.Administrator, flags.ManageRoles, flags.ManageGuild, 
                         flags.ManageChannels, flags.KickMembers, flags.BanMembers]

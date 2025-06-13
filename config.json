@@ -1,7 +1,7 @@
 {
     "isOwner": true,
     "isRoles": true,
-    "isAuthority": true,
+    "isAuthority": false,
 
     "owners": [],
     "roles": [],

