@@ -19,6 +19,7 @@
     "isURLAndGuildGuard": true,
     "isRoleAuthorityProtection": true,
     "isWebEntry": false,
+	"isChatGuard": true,
     
     "backup": {
         "roleBackup": true
