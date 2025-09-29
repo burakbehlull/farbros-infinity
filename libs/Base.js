@@ -1,8 +1,11 @@
-import { getPrefixCommands, getSlashCommands, getEvents, eventExecuter, commandExecuter } from '#helpers'
+import { getPrefixCommands, getSlashCommands, getEvents, 
+	deploySlashCommands, eventExecuter, commandExecuter } from '#helpers'
 
 class Base {
-    constructor(client){
+    constructor(client, token, botId){
 		this.client = client
+		this.token = token
+		this.botId = botId
 	}
 	
 	async loaders() {
@@ -13,13 +16,15 @@ class Base {
 	  const events = await getEvents()
 	 
 	  await commandExecuter(client, slashCommands, prefixCommands)
+	  await deploySlashCommands(this.token, this.botId, slashCommands)
+	  
 	  await eventExecuter(client, events) 
+	  
 	}
 	
 
 	connect(){
-		const client = this.client
-		client.login(process.env.TOKEN);
+		this.client.login(this.token);
 	}
 }
 

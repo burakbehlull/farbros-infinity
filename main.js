@@ -3,7 +3,6 @@ import 'dotenv/config'
 
 import { Base } from "#libs"
 import { itentsAll } from "#helpers"
-
 import { db } from "#config"
 
 const client = new Client({
@@ -15,3 +14,4 @@ db()
 
 const base = new Base(client)
 await base.loaders()
+base.connect()
