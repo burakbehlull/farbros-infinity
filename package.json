@@ -6,6 +6,11 @@
   "scripts": {
     "start": "node main"
   },
+  "imports": {
+    "#helpers": "./helpers/index.js",
+    "#libs": "./libs/index.js",
+    "#config": "./config/index.js",
+  },
   "keywords": [],
   "author": "Burak Behlül <@burakbehlull>",
   "license": "ISC",
