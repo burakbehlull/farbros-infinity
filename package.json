@@ -9,7 +9,10 @@
   "imports": {
     "#helpers": "./helpers/index.js",
     "#libs": "./libs/index.js",
-    "#config": "./config/index.js"
+    "#config": "./config/index.js",
+    "#controllers": "./api/controllers/index.js",
+    "#models": "./api/models/index.js",
+    "#routers": "./api/routers/index.js"
   },
   "keywords": [],
   "author": "Burak Behlül <@burakbehlull>",
@@ -18,6 +21,7 @@
   "dependencies": {
     "discord.js": "^14.22.1",
     "dotenv": "^17.2.2",
+    "express": "^5.1.0",
     "mongoose": "^8.18.2"
   }
 }
