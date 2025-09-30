@@ -12,6 +12,6 @@ const client = new Client({
 
 db()
 
-const base = new Base(client)
+const base = new Base(client, process.env.TOKEN, process.env.BOT_ID)
 await base.loaders()
 base.connect()

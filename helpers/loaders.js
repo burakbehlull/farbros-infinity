@@ -108,9 +108,9 @@ async function deploySlashCommands(token, botId, commands) {
 async function eventExecuter(client, events){
 	for (const event of events) {
 		if (event.once) {
-		    client.once(event.eventName, async (...args) => event.execute(client, ...args));
+		    client.once(event.name, async (...args) => event.execute(client, ...args));
 		} else {
-		    client.on(event.eventName, async (...args) => event.execute(client, ...args));
+		    client.on(event.name, async (...args) => event.execute(client, ...args));
 		}
 	}
 }

@@ -4,12 +4,12 @@
   "main": "main.js",
   "type": "module",
   "scripts": {
-    "start": "node main"
+    "start": "node main.js"
   },
   "imports": {
     "#helpers": "./helpers/index.js",
     "#libs": "./libs/index.js",
-    "#config": "./config/index.js",
+    "#config": "./config/index.js"
   },
   "keywords": [],
   "author": "Burak Behlül <@burakbehlull>",
