@@ -1,7 +1,7 @@
-import app from "./app";
+import app from "./app.js";
 
 const PORT = process.env.PORT || 80;
 
-export default function setupApi() {
+export default function startApi() {
     app.listen(PORT, () => console.log(`Server ${PORT} portunda çalışıyor.`));
 }

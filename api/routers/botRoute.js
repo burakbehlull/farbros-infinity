@@ -1,8 +1,8 @@
 import express from 'express';
-import {  } from '#controllers';
+// import {  } from '#controllers';
 
 const router = express.Router();
 
-// router.get('/', GetBots)
+router.get('/', (req,res)=> res.send('bot route'));
 
 export default router;
