@@ -12,16 +12,19 @@
     "#config": "./config/index.js",
     "#controllers": "./api/controllers/index.js",
     "#models": "./api/models/index.js",
-    "#routers": "./api/routers/index.js"
+    "#routers": "./api/routers/index.js",
+    "#api": "./api/api.js"
   },
   "keywords": [],
   "author": "Burak Behlül <@burakbehlull>",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "cors": "^2.8.5",
     "discord.js": "^14.22.1",
     "dotenv": "^17.2.2",
     "express": "^5.1.0",
-    "mongoose": "^8.18.2"
+    "mongoose": "^8.18.2",
+    "morgan": "^1.10.1"
   }
 }
