@@ -67,7 +67,7 @@ async function getEvents() {
 
     if (!event?.name) continue;
       
-    events.push({...event, type: 'event'});
+    events.push(event);
     
     console.log(`🎯 Event yüklendi: ${event.name}`);
   }
@@ -138,8 +138,8 @@ export {
     getSlashCommands,
     getEvents,
 	
-	eventExecuter,
-	commandExecuter,
-	
-	deploySlashCommands
+    eventExecuter,
+    commandExecuter,
+    
+    deploySlashCommands
 }
