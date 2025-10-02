@@ -1,5 +1,5 @@
-import AuthorityManager from "./AuthorityManager.js";
+import Manager from "./baseManager.js";
+import AuthorityManager from "./authorityManager.js";
 
-export {
-    AuthorityManager
-}
+export { AuthorityManager }
+export default Manager

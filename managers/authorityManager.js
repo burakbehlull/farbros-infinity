@@ -1,17 +1,15 @@
-import { AuditLogEvent } from "discord.js"
 
 export default class AuthorityManager {
-    constructor(client) {
+    constructor(client, options) {
         this.client = client;
-        this.audit = AuditLogEvent
+		this.options = options
     }
     async info(child, type){
-        const action = child ? child : this.client;
-
-        const x = await action.fetchAuditLogs({limit:1,type: type})
-        const entry = x.entries.first();
+		
+        const log = await child.fetchAuditLogs({limit:1,type: type})
+        const entry = log.entries.first();
         
         console.log("[x] ", entry)
-        return null;
+        return entry
     }
 }

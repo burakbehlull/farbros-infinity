@@ -1,11 +1,11 @@
-import { AuthorityManager } from "#managers";
+import Manager from "#managers";
 
 export default {
   name: "roleDelete", 
   async execute(client, role) {
     try {
-        const AM = new AuthorityManager(client);
-        await AM.info(role.guild, AM.audit.RoleDelete);
+        const manager = new Manager(client);
+        await manager.authority.info(role.guild, manager.audit.RoleDelete);
         
         console.log(`[Role deleted]: ${role.id}`);
     } catch (error) {

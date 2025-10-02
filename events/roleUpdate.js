@@ -1,11 +1,11 @@
-import { AuthorityManager } from "#managers";
+import Manager from "#managers";
 
 export default {
   name: "roleUpdate", 
   async execute(client, oldRole, newRole) {
     try {
-        const AM = new AuthorityManager(client);
-        await AM.info(oldRole.guild, AM.audit.RoleUpdate);
+        const manager = new Manager(client);
+        await manager.authority.info(oldRole.guild, manager.audit.RoleUpdate);
 
         console.log(`[Role update old]: ${oldRole?.id}`);
         console.log(`[Role update new]: ${newRole?.id}`);
