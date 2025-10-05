@@ -15,7 +15,8 @@
     "#models": "./api/models/index.js",
     "#routers": "./api/routers/index.js",
     "#api": "./api/api.js",
-    "#bot": "./bot.js"
+    "#bot": "./bot.js",
+    "#data": "./data/index.js"
   },
   "keywords": [],
   "author": "Burak Behlül <@burakbehlull>",
