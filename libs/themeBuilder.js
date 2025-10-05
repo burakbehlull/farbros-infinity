@@ -6,9 +6,6 @@ class Sender {
 		this.client = client
 	}
 	
-	randomColor(){
-		return Math.floor(Math.random() * (0xffffff + 1))
-	}
 	async getChannelHybrid(channelId, interaction){
 		try {
 			
@@ -108,6 +105,57 @@ class Sender {
 			return null;
 		}
 	}
+
+	async send({id, reply, text, embed, embeds, components, ephemeral}={}){
+		
+		const content = {};
+		
+        if (text) content.content = text;
+		if (embeds || embed) content.embeds = embeds ? embeds : [embed];
+        if (components) content.components = components;
+        if (ephemeral) content.ephemeral = ephemeral;
+		
+		let channel;
+		
+		if(reply){
+			this.client.reply(content)
+		} else if(id){
+			channel = await this.getChannel(id)
+			channel.send(content)
+		} else {
+			channel = this.client.channel
+			channel.send(content)
+		}
+		
+	}
+}
+
+class ThemeBuilder extends Sender {
+	constructor(client){
+		super(client)
+	}
+	randomColor(){
+		return Math.floor(Math.random() * (0xffffff + 1))
+	}
+	
+	getNameAndAvatars(type){
+		const interaction = this.client
+		const user = interaction.author ?? interaction.user
+
+		if(type=="user") {
+			return {
+				text: user.username,
+				name: user.username,
+				iconURL: user.displayAvatarURL()
+			}
+		} else if(type=="guild") {
+			return {
+				text: interaction.guild.name, 
+				name: interaction.guild.name, 
+				iconURL: interaction.guild.iconURL()
+			}
+		}
+	}
 	
 	createTheme({ heritage, title, description, image, thumbnail, fields=[], 
 		author, color=0x0099FF, footer, timestamp}){
@@ -125,26 +173,10 @@ class Sender {
 		if (fields.length) IEmbed.addFields(...fields);
 		
 		return IEmbed
-	}	
-	getNameAndAvatars(type,){
-		const interaction = this.client
-		const user = interaction.author ?? interaction.user
-
-		if(type=="user") {
-			return {
-				text: user.username,
-				name: user.username,
-				iconURL: user.displayAvatarURL()
-			}
-		} else if(type=="guild") {
-			return {
-				text: interaction.guild.name, 
-				name: interaction.guild.name, 
-				iconURL: interaction.guild.iconURL()
-			}
-		}
-	}	
+	}
+	
 	embedThemeBuilder(type, {
+		action=false,
 		randomColor=false,
 		author=null,
 		description,
@@ -152,6 +184,18 @@ class Sender {
 		footer=null
 	}={}){
 		
+		const helpers = (theme) => ({
+			embed: theme,
+			reply: (options = {}) => {
+				const { ephemeral = false, components = null } = options;
+				return this.send({ embed: theme, reply: true, components, ephemeral });
+			},
+			send: (options = {}) => {
+				const { id = null, components = null } = options;
+				return this.send({ id, embed: theme, components });
+			}
+		});
+
 		let theme;
 		switch(type){
 			case themes.success:
@@ -159,23 +203,20 @@ class Sender {
 					author, title, description, footer,
 					color: colors.green
 				})
-			return theme
+				
+				const channel = this.client.channel
+			return !action ? action : helpers(theme)
 			
 			case themes.error:
 				theme = this.createTheme({
 					author, title, description, footer,
 					color: colors.red,
 				})
-			return theme
+			return !action ? action : helpers(theme)
 				
 		}
 	}
-}
-
-class ThemeBuilder extends Sender {
-	constructor(client){
-		super(client)
-	}
+	
 }
 
 export default ThemeBuilder
