@@ -1,9 +1,5 @@
 import { GatewayIntentBits } from 'discord.js';
 
-function randomColor(){
-	return Math.floor(Math.random() * (0xffffff + 1))
-}
-
 function itentsMiddle(){
 	return [
 		GatewayIntentBits.Guilds,
@@ -21,7 +17,6 @@ function itentsAll(){
 }
 
 export {
-	randomColor,
 	itentsMiddle,
 	itentsAll
 }

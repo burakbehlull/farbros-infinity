@@ -4,7 +4,8 @@
   "main": "main.js",
   "type": "module",
   "scripts": {
-    "start": "node main.js"
+    "start": "node main.js",
+    "bot": "node main.js"
   },
   "imports": {
     "#helpers": "./helpers/index.js",

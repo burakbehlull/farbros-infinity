@@ -1,4 +1,4 @@
-const colors = {
+export const colors = {
   liveRed: '#FF6B6B', 
   gold: '#FFD93D', 
   green: '#6BCB77', 
@@ -19,5 +19,3 @@ const colors = {
   lightBlue3: 0x89CFF0,
   darkBlue: '#3A5F8A'
 };
-
-export default colors

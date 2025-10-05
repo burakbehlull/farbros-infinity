@@ -1,10 +1,15 @@
 import { EmbedBuilder } from 'discord.js';
+import { themes, colors } from '#data'
 
 class Sender {
 	constructor(client){
 		this.client = client
 	}
-	getChannel(id){
+	
+	randomColor(){
+		return Math.floor(Math.random() * (0xffffff + 1))
+	}
+	async getChannel(id){
 		if(!id) {
 			console.error("[Sender/getChannel]: Channel Id is not found")
 			return null
@@ -21,7 +26,34 @@ class Sender {
 		}
 
 	}
-	
+
+	async getUser(userId, interaction) {
+		try {
+			const source = interaction ? interaction : this.client
+			const client =
+				source?.client ??
+				source?.user?.client ??
+				source;
+
+			if (!client || !client.users) {
+				console.error("[Sender/getUser]: Invalid source or client not found");
+				return null;
+			}
+
+			let user = client.users.cache.get(userId);
+
+			if (!user) {
+				user = await client.users.fetch(userId);
+			}
+
+			return user;
+		} catch (err) {
+			console.error(`[Sender/getUser]: Cannot fetch user (${userId})`, err);
+			return null;
+		}
+	}
+
+
 	createTheme({ heritage, title, description, image, thumbnail, fields=[], 
 		author, color=0x0099FF, footer, timestamp}){
 		
@@ -38,47 +70,45 @@ class Sender {
 		if (fields.length) IEmbed.addFields(...fields);
 		
 		return IEmbed
-	}
-	
-	getNameAndAvatars(type){
+	}	
+	getNameAndAvatars(type,){
 		const interaction = this.client
 		const user = interaction.author ?? interaction.user
 
 		if(type=="user") {
 			return {
 				text: user.username,
+				name: user.username,
 				iconURL: user.displayAvatarURL()
 			}
 		} else if(type=="guild") {
 			return {
+				text: interaction.guild.name, 
 				name: interaction.guild.name, 
 				iconURL: interaction.guild.iconURL()
 			}
 		}
-	}
-	
+	}	
 	embedThemeBuilder(type, {
-		randomColor=false
-		description
-		title=null
+		randomColor=false,
+		author=null,
+		description,
+		title=null,
 		footer=null
 	}={}){
-		
 		
 		let theme;
 		switch(type){
 			case themes.success:
 				theme = this.createTheme({
-					title,
-					description,
+					author, title, description, footer,
 					color: colors.green
 				})
 			return theme
 			
 			case themes.error:
 				theme = this.createTheme({
-					title, 
-					description,
+					author, title, description, footer,
 					color: colors.red,
 				})
 			return theme
