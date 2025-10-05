@@ -8,7 +8,8 @@ export default {
     try {	  
 	  const theme = new themeBuilder(message)
 	  const x = await theme.getUser("677194506621288448")
-	  console.log("[USER]", x)
+	  const xd = await theme.getChannel("978725727379812415")
+	  console.log("[CH]", xd)
 	  const ITheme = theme.embedThemeBuilder(themes.success, {
 		  author: theme.getNameAndAvatars("guild"),
 		  description: "başarılı",

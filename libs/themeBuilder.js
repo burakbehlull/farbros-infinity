@@ -9,19 +9,30 @@ class Sender {
 	randomColor(){
 		return Math.floor(Math.random() * (0xffffff + 1))
 	}
-	async getChannel(id){
-		if(!id) {
-			console.error("[Sender/getChannel]: Channel Id is not found")
-			return null
-		}
+	
+	async getChannel(channelId, interaction){
 		try {
-			let channel = this.client.channels.cache.get(id);
-			if (!channel) {
-				channel = await this.client.channels.fetch(id);
+			
+			const source = interaction ? interaction : this.client
+			const client = 
+				source?.client ??
+				source?.user?.client ??
+				source;
+
+			if (!client || !client.channels) {
+				console.error("[Sender/getChannel]: Invalid source or client not found");
+				return null;
 			}
+
+			let channel = client.channels.cache.get(channelId);
+
+			if (!channel) {
+				channel = await client.channels.fetch(channelId);
+			}
+
 			return channel;
 		} catch (err) {
-			console.error(`[Sender/getChannel]: Cannot fetch channel (${id})`, err);
+			console.error(`[Sender/getChannel]: Cannot fetch channel (${channelId})`, err);
 			return null;
 		}
 
@@ -52,7 +63,6 @@ class Sender {
 			return null;
 		}
 	}
-
 
 	createTheme({ heritage, title, description, image, thumbnail, fields=[], 
 		author, color=0x0099FF, footer, timestamp}){
