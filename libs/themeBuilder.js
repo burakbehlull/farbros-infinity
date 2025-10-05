@@ -9,8 +9,7 @@ class Sender {
 	randomColor(){
 		return Math.floor(Math.random() * (0xffffff + 1))
 	}
-	
-	async getChannel(channelId, interaction){
+	async getChannelHybrid(channelId, interaction){
 		try {
 			
 			const source = interaction ? interaction : this.client
@@ -37,8 +36,8 @@ class Sender {
 		}
 
 	}
-
-	async getUser(userId, interaction) {
+	
+	async getUserHybrid(userId, interaction) {
 		try {
 			const source = interaction ? interaction : this.client
 			const client =
@@ -63,7 +62,53 @@ class Sender {
 			return null;
 		}
 	}
+	
+	async getUser(userId) {
+		const guild = this.client.guild
+		if (!userId) {
+			console.error("[Sender/getMember]: Missing userId or guild");
+			return null;
+		}
 
+		try {
+			let member = guild.members.cache.get(userId);
+			if (!member) {
+				member = await guild.members.fetch(userId);
+			}
+			return member;
+		} catch (err) {
+			console.error(`[Sender/getUser]: Cannot fetch member (${userId})`, err);
+			return null;
+		}
+	}
+	
+	async getChannel(channelId) {
+		const guild = this.client.guild
+		
+		if (!channelId) {
+			console.error("[Sender/getGuildChannel]: Missing channelId or guild");
+			return null;
+		}
+		
+
+		try {
+			let channel = guild.channels.cache.get(channelId);
+			if (!channel) {
+				channel = await guild.channels.fetch(channelId);
+			}
+
+			if (channel.guild.id !== guild.id) {
+				console.warn(`[Sender/getGuildChannel]: Channel (${channelId}) does not belong to this guild`);
+				return null;
+			}
+
+			return channel;
+		} catch (err) {
+			console.error(`[Sender/getGuildChannel]: Error while checking channel (${channelId})`, err);
+			return null;
+		}
+	}
+	
 	createTheme({ heritage, title, description, image, thumbnail, fields=[], 
 		author, color=0x0099FF, footer, timestamp}){
 		
