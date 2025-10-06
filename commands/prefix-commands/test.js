@@ -1,5 +1,5 @@
 import { themeBuilder } from '#libs'
-import { themes, colors } from '#data'
+import { themes } from '#data'
 
 export default {
   name: 'ping',
