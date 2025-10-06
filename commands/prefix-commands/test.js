@@ -1,24 +1,24 @@
 import { themeBuilder } from '#libs'
-import { themes } from '#data'
+import { themes, colors } from '#data'
 
 export default {
   name: 'ping',
   description: 'Example command, ping.',
   async execute(client, message, args) {
     try {	  
-	  const theme = new themeBuilder(message)
+	
+	  const tb = new themeBuilder(message)
 
-
-	  const ITheme = theme.embedThemeBuilder(themes.success, {
-		  action: true,
-		  author: theme.getNameAndAvatars("guild"),
+	  const theme = tb.embedThemeBuilder(themes.success, {
+		  action: false,
+		  author: tb.getNameAndAvatars("guild"),
 		  description: "başarılı",
-		  footer: theme.getNameAndAvatars("user")
+		  footer: tb.getNameAndAvatars("user")
 	  })
 	  
-	  ITheme.reply()
-	  // theme.send({embed: ITheme, id: "948696953695383643"})
-      // message.reply({embeds: [ITheme] })
+	  // theme.reply()
+	  tb.send({embed: theme, id: "948696953695383643"})
+      // message.reply({embeds: [theme] })
     } catch (err) {
       console.error('error: ', err);
     }

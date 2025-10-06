@@ -158,33 +158,42 @@ class ThemeBuilder extends Sender {
 	}
 	
 	createTheme({ heritage, title, description, image, thumbnail, fields=[], 
-		author, color=0x0099FF, footer, timestamp}){
+		author, color=0x0099FF, footer, timestamp=false, timestampContent=false}){
 		
-		const IEmbed = new EmbedBuilder(heritage)
+		const IEmbed = new EmbedBuilder(heritage ?? {})
 		
 		if (color) IEmbed.setColor(color)
 		if (title) IEmbed.setTitle(title)
-		if (timestamp) IEmbed.setTimestamp(timestamp)
 		if (footer) IEmbed.setFooter(footer)
 		if (author) IEmbed.setAuthor(author)
 		if (description) IEmbed.setDescription(description)
 		if (image) IEmbed.setImage(image);
 		if (thumbnail) IEmbed.setThumbnail(thumbnail);
 		if (fields.length) IEmbed.addFields(...fields);
+		if (timestamp) IEmbed.setTimestamp()
+		if (timestampContent) IEmbed.setTimestamp(timestampContent)
 		
 		return IEmbed
 	}
 	
 	embedThemeBuilder(type, {
+		heritage=null,
 		action=false,
 		randomColor=false,
+		
 		author=null,
-		description,
+		description=null,
 		title=null,
-		footer=null
+		footer=null,
+		
+		color=null,
+		thumbnail=null,
+		image=null,
+		fields=[],
+		
 	}={}){
 		
-		const helpers = (theme) => ({
+		const init = action ? (theme) => ({
 			embed: theme,
 			reply: (options = {}) => {
 				const { ephemeral = false, components = null } = options;
@@ -194,25 +203,37 @@ class ThemeBuilder extends Sender {
 				const { id = null, components = null } = options;
 				return this.send({ id, embed: theme, components });
 			}
-		});
+		}) : (theme)=> theme
 
 		let theme;
+		
+		const rc = randomColor ? this.randomColor() : color
+		
 		switch(type){
 			case themes.success:
 				theme = this.createTheme({
-					author, title, description, footer,
-					color: colors.green
+					heritage,
+					
+					author, title, description, fields, footer,
+					image, thumbnail,
+					
+					color: rc || colors.green,
+					timestamp: true
 				})
 				
-				const channel = this.client.channel
-			return !action ? action : helpers(theme)
+			return init(theme)
 			
 			case themes.error:
 				theme = this.createTheme({
-					author, title, description, footer,
-					color: colors.red,
+					heritage,
+					
+					author, title, description, fields, footer,
+					image, thumbnail,
+					
+					color: rc || colors.red,
+					timestamp: true
 				})
-			return !action ? action : helpers(theme)
+			return init(theme)
 				
 		}
 	}
