@@ -13,7 +13,9 @@ export default {
         const x = await manager.authority.isAuthorities(info.executorId,  ["BanMembers", "ManageRoles"])
         // console.log(`[Role deleted]: ${role.id}`);
         console.log(`[IA]`, x);
-    } catch (error) {
+		await manager.authority.isRoles(info.executorId, ["874738275741478912"])
+		
+	} catch (error) {
         console.error('Error handling role deletion:', error);
     }
   },

@@ -5,24 +5,18 @@ export default class AuthorityManager {
 		this.options = options
     }
     async info(type){
-		
-		// use: child.guild
         const log = await this.options.action.fetchAuditLogs({limit:1,type: type})
         const entry = log.entries.first();
         
-        console.log("[x] ", entry)
         return entry
     }
 	
     async isAuthorities(userId, authorities){
 		const action = this.options.action
         let member = action.members.cache.get(userId)
-			console.log("MEMBER", member.permissions.toArray());
 		
         const result = authorities.map((authority)=> {
-			console.log("authority ",authority)
             const isHasAuthority = member.permissions.has(authority)
-			console.log("isHA", isHasAuthority)
             if(isHasAuthority){
                 return true
             }
@@ -32,5 +26,22 @@ export default class AuthorityManager {
 		return result.includes(true) 
     }
 
+    async isRoles(userId, roles){
+		
+		const action = this.options.action
+        const member = action.members.cache.get(userId)
+        
+		const statusPromises = await roles.map(async (role) => {
+			const hasRole = await member.roles.cache.has(role)
+			return hasRole
+		})
 
+		const status = await Promise.all(statusPromises)
+		
+		const hasRoleStatus = status.includes(true)
+
+		return hasRoleStatus
+        
+
+    }
 }
