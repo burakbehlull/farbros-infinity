@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "start": "node main.js",
+	"dev": "nodemon main.js",
     "bot": "node main.js"
   },
   "imports": {
