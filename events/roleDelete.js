@@ -6,7 +6,7 @@ export default {
     try {
         const manager = new Manager(client, {
 			authority: {
-				action: role.guild
+				action: role
 			}
 		});
         const info = await manager.authority.info(manager.audit.RoleDelete);

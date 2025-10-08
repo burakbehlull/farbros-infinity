@@ -3,16 +3,19 @@ export default class AuthorityManager {
     constructor(client, options) {
         this.client = client;
 		this.options = options
+		this.action = options.action
+		this.guild = options.action.guild
     }
     async info(type){
-        const log = await this.options.action.fetchAuditLogs({limit:1,type: type})
+		const action = this.guild
+        const log = await action.fetchAuditLogs({limit:1, type: type})
         const entry = log.entries.first();
         
         return entry
     }
 	
     async isAuthorities(userId, authorities){
-		const action = this.options.action
+		const action = this.guild
         let member = action.members.cache.get(userId)
 		
         const result = authorities.map((authority)=> {
@@ -28,7 +31,7 @@ export default class AuthorityManager {
 
     async isRoles(userId, roles){
 		
-		const action = this.options.action
+		const action = this.guild
         const member = action.members.cache.get(userId)
         
 		const statusPromises = await roles.map(async (role) => {
@@ -44,4 +47,14 @@ export default class AuthorityManager {
         
 
     }
+
+    isMembers(userId, members){    
+         return members.includes(userId)
+    }
+
+	async isGuildOwner(userId) {
+		const result = this.guild.ownerId === userId;
+		return result
+	}
+
 }
