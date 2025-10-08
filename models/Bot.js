@@ -1,9 +1,45 @@
-import mongoose from "mongoose"
+import mongoose from "mongoose";
+
+const levelSchema = new mongoose.Schema({
+  enable: {
+    type: Boolean,
+    default: false,
+  },
+  isAuthorities: {
+    type: Boolean,
+    default: false,
+  },
+  authorities: {
+    type: [String],
+    default: [],
+  },
+  members: {
+    type: [String],
+    default: [],
+  },
+  roles: {
+    type: [String],
+    default: [],
+  },
+});
 
 const botSchema = new mongoose.Schema({
-    token: { type: String, unique: true, required: true },
-    botId: { type: String },
-    prefix: { type: String, default: "." }
-})
+  guildId: { type: String, unique: true },
+  
+  prefix: { type: String, default: "." },
 
-export default mongoose.model("Bot", botSchema)
+  high: {
+    type: levelSchema,
+    default: () => ({}),
+  },
+  mid: {
+    type: levelSchema,
+    default: () => ({}),
+  },
+  low: {
+    type: levelSchema,
+    default: () => ({}),
+  },
+}, { versionKey: false });
+
+export default mongoose.model("Bot", botSchema);
