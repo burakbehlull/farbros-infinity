@@ -23,7 +23,7 @@ const levelSchema = new mongoose.Schema({
   },
 });
 
-const botSchema = new mongoose.Schema({
+const guildConfigSchema = new mongoose.Schema({
   guildId: { type: String, unique: true },
   
   prefix: { type: String, default: "." },
@@ -42,4 +42,4 @@ const botSchema = new mongoose.Schema({
   },
 }, { versionKey: false });
 
-export default mongoose.model("Bot", botSchema);
+export default mongoose.model("GuildConfig", guildConfigSchema);

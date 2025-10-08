@@ -1,5 +1,5 @@
-import Bot from './Bot.js'
+import GuildConfig from './GuildConfig.js'
 
 export {
-    Bot
+    GuildConfig
 }
