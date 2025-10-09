@@ -24,7 +24,8 @@ class Base {
 	
 
 	connect(){
-		this.client.login(this.token);
+		const connected = this.client.login(this.token);
+		return connected
 	}
 }
 

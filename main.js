@@ -1,11 +1,16 @@
 import 'dotenv/config'
 
 import startApi from '#api'
-import startBot from '#bot'
+import startBot from '#botBase'
+
 import { db } from '#config'
 
 db()
 
 startApi()
-await startBot()
+
+const bot = await startBot()
+
+export default bot
+
 

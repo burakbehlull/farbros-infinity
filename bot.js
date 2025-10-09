@@ -11,6 +11,8 @@ const startBot = async () => {
     const base = new Base(client, process.env.TOKEN, process.env.BOT_ID)
     await base.loaders()
     base.connect()
+	
+	return base
 }
 
 export default startBot;
