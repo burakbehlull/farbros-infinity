@@ -13,6 +13,7 @@
     "#libs": "./libs/index.js",
     "#config": "./config/index.js",
     "#controllers": "./api/controllers/index.js",
+    "#base": "./api/base/index.js",
     "#managers": "./managers/index.js",
     "#models": "./api/models/index.js",
     "#routers": "./api/routers/index.js",
