@@ -4,12 +4,12 @@ export default {
 	name: Events.ClientReady,
 	once: true,
 	async execute(client) {
-		console.log(`${client.user.tag} is here for you!`);
+		console.log(`${client.user.tag} burada!`);
 
 		client.user.setPresence({
 			activities: [
 				{
-					name: 'Test',
+					name: 'Farbros Infinity V2',
 					type: ActivityType.Watching
 				}
 			],

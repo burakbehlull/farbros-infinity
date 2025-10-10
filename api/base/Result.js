@@ -12,3 +12,5 @@ class Result {
 		return this
 	}
 }
+
+export default Result

@@ -56,5 +56,10 @@ export default class AuthorityManager {
 		const result = this.guild.ownerId === userId;
 		return result
 	}
+	
+	async selectGuildMember(userId, targetId) {
+		const result = userId === targetId;
+		return result
+	}
 
 }
