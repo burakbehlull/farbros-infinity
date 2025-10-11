@@ -223,15 +223,17 @@ class ThemeBuilder extends Sender {
 				
 			return init(theme)
 			
-			case themes.error:
+			case themes.rich:
 				theme = this.createTheme({
 					heritage,
+					author: this.getNameAndAvatars("guild"),
 					
-					author, title, description, fields, footer,
+					title, description, fields,
 					image, thumbnail,
 					
-					color: rc || colors.red,
-					timestamp: true
+					color: rc,
+					footer: this.getNameAndAvatars("user"),
+					timestamp: true,
 				})
 			return init(theme)
 				

@@ -5,7 +5,7 @@ export default {
   async execute(client, channel) {
     try {
         const manager = new Manager(client);
-        await manager.authority.info(channel.guild, manager.audit.ChannelDelete);
+        await manager.authority.info(manager.audit.ChannelDelete);
 		
 		console.log(`[Channel deleted]: ${channel.id}`);
     } catch (error) {

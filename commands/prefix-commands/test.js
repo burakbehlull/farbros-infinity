@@ -6,7 +6,6 @@ export default {
   description: 'Example command, ping.',
   async execute(client, message, args) {
     try {	  
-	
 	  const tb = new themeBuilder(message)
 
 	  const theme = tb.embedThemeBuilder(themes.success, {

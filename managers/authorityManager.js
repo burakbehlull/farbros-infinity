@@ -50,7 +50,8 @@ export default class AuthorityManager {
     }
 
     isMembers(userId, members){    
-         return members.includes(userId)
+		const result = members.includes(userId)
+        return result
     }
 
 	async isGuildOwner(userId) {
