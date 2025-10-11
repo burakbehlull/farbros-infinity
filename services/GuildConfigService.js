@@ -1,6 +1,5 @@
 import { GuildConfig } from "#models"
 
-
 async function createGuildConfig(guildId){
 	const exist = await guildConfig.findOne({guildId})
 	if(exist) return {
@@ -32,9 +31,8 @@ async function guildConfigFindById({guildId}){
 
 async function addItemToGuildConfig({guildId, level, type, data}){
 	const modConfig = await ModConfig.findOne({guildId});
-	if (!modConfig) return {
-		success: false,
-		message: 'Böyle bir kayıt yok'	
+	if (!modConfig) {
+	  modConfig = new ModConfig({ guildId });
 	}
 	
 	const mode = modConfig[level]
@@ -42,7 +40,7 @@ async function addItemToGuildConfig({guildId, level, type, data}){
 	
 	switch(type){
 		case 'members':
-			if(!result.includes(data)) return {
+			if(result.includes(data)) return {
 				success: false,
 				message: 'Bu üye zaten var!'	
 			}
@@ -53,7 +51,7 @@ async function addItemToGuildConfig({guildId, level, type, data}){
 				message: 'Üye eklendi.'	
 			}
 		case 'authorities':
-			if(!result.includes(data)) return {
+			if(result.includes(data)) return {
 				success: false,
 				message: 'Bu yetki zaten tanımlanmış!'	
 			}
@@ -64,7 +62,7 @@ async function addItemToGuildConfig({guildId, level, type, data}){
 				message: 'Yetki eklendi.'	
 			}
 		case 'roles':
-			if(!result.includes(data)) return {
+			if(result.includes(data)) return {
 				success: false,
 				message: 'Bu rol zaten var!'	
 			}

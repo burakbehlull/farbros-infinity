@@ -1,11 +1,12 @@
 
 export default class AuthorityManager {
-    constructor(client, options) {
-        this.client = client;
+    constructor(client, action, options) {
+        this.client = client
 		this.options = options
-		this.action = options.action
-		this.guild = options.action.guild
+		this.action = action
+		this.guild = action.guild
     }
+	
     async info(type){
 		const action = this.guild
         const log = await action.fetchAuditLogs({limit:1, type: type})

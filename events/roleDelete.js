@@ -5,9 +5,7 @@ export default {
   async execute(client, role) {
     try {
         const manager = new Manager(client, {
-			authority: {
-				action: role
-			}
+			action: role
 		});
         const info = await manager.authority.info(manager.audit.RoleDelete);
         const x = await manager.authority.isAuthorities(info.executorId,  ["BanMembers", "ManageRoles"])
