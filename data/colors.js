@@ -1,6 +1,7 @@
 export const colors = {
   liveRed: '#FF6B6B', 
   gold: '#FFD93D', 
+  gold2: '#FFD700',
   green: '#6BCB77', 
   red: 0xFF0000,
   blue: '#4D96FF', 

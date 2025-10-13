@@ -100,7 +100,11 @@ export default class AuthorityManager {
 		checks.push(selectedMembers)
 		
 		const check = checks.includes(true)
-		return check
+		return { 
+			userId: userId, 
+			guildId: guildId,
+			status: check,
+		}
 	}
 
 }

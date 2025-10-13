@@ -138,8 +138,8 @@ class ThemeBuilder extends Sender {
 		return Math.floor(Math.random() * (0xffffff + 1))
 	}
 	
-	getNameAndAvatars(type){
-		const interaction = this.client
+	getNameAndAvatars(type, action){
+		const interaction = action || this.client
 		const user = interaction.author ?? interaction.user
 
 		if(type=="user") {
@@ -219,20 +219,68 @@ class ThemeBuilder extends Sender {
 					
 					color: rc || colors.green,
 					timestamp: true
-				})
+			})
 				
 			return init(theme)
+			
+			case themes.error:
+				theme = this.createTheme({
+					heritage,
+					
+					author, title, description, 
+					fields, image, thumbnail,
+					footer: footer || this.getNameAndAvatars("user"),
+
+					
+					color: rc || colors.red,
+					timestamp: true
+			})
+				
+			return init(theme)
+			
+			case themes.classic:
+				theme = this.createTheme({
+					heritage,
+					
+					author: author || this.getNameAndAvatars("guild"),
+					
+					title, description, fields, 
+					image, thumbnail,
+					
+					footer: footer || this.getNameAndAvatars("user"),
+
+					
+					color: rc || colors.lightBlue3,
+					timestamp: true
+			})
+				
+			return init(theme)
+			
 			
 			case themes.rich:
 				theme = this.createTheme({
 					heritage,
-					author: this.getNameAndAvatars("guild"),
+					author: author || this.getNameAndAvatars("guild"),
 					
 					title, description, fields,
 					image, thumbnail,
 					
 					color: rc,
-					footer: this.getNameAndAvatars("user"),
+					footer: footer || this.getNameAndAvatars("user"),
+					timestamp: true,
+				})
+			return init(theme)
+			
+			case themes.warn:
+				theme = this.createTheme({
+					heritage,
+					author: author || this.getNameAndAvatars("guild"),
+					
+					title, description, fields,
+					image, thumbnail,
+					
+					color: rc || colors.gold2,
+					footer: footer || this.getNameAndAvatars("user"),
 					timestamp: true,
 				})
 			return init(theme)

@@ -1,4 +1,6 @@
 import Manager from "#managers";
+import { themeBuilder } from '#libs'
+import { themes } from '#data'
 
 export default {
   name: "roleDelete", 
@@ -14,7 +16,19 @@ export default {
 			levels: ["high", "mid"]
 		})
 		
-		if(!control) console.log("yetersiz yetki")
+		const tb = new themeBuilder(role)
+		
+		const user = await tb.getUser(control.userId)
+		
+		const theme = tb.embedThemeBuilder(themes.success, {
+			  action: true,
+			  author: tb.getNameAndAvatars("guild"),
+			  description: "başarılı",
+			  footer: tb.getNameAndAvatars("user", user)
+		})
+		theme.send({id: "948696953695383643"})
+	
+		if(!control.status) console.log("yetersiz yetki")
 			
 	} catch (error) {
         console.error('Error handling role deletion:', error);
