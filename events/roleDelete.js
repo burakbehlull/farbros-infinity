@@ -1,5 +1,5 @@
 import Manager from "#managers";
-import { themeBuilder } from '#libs'
+
 import { themes } from '#data'
 
 export default {
@@ -7,7 +7,7 @@ export default {
   async execute(client, role) {
     try {
 		
-        const { authority, audit } = new Manager(client, {
+        const { authority, theme: tb, audit } = new Manager(client, {
 			action: role
 		});
 		
@@ -15,8 +15,6 @@ export default {
 			audit: audit.RoleDelete, 
 			levels: ["high", "mid"]
 		})
-		
-		const tb = new themeBuilder(role)
 		
 		const user = await tb.getUser(control.userId)
 		
@@ -26,6 +24,7 @@ export default {
 			  description: "başarılı",
 			  footer: tb.getNameAndAvatars("user", user)
 		})
+		
 		theme.send({id: "948696953695383643"})
 	
 		if(!control.status) console.log("yetersiz yetki")
