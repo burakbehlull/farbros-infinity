@@ -4,15 +4,18 @@ export default {
   name: "roleDelete", 
   async execute(client, role) {
     try {
-        const manager = new Manager(client, {
+		
+        const { authority, audit } = new Manager(client, {
 			action: role
 		});
-        const info = await manager.authority.info(manager.audit.RoleDelete);
-        const x = await manager.authority.isAuthorities(info.executorId,  ["BanMembers", "ManageRoles"])
-        // console.log(`[Role deleted]: ${role.id}`);
-        console.log(`[IA]`, x);
-		await manager.authority.isRoles(info.executorId, ["874738275741478912"])
 		
+		const control = await authority.control({
+			audit: audit.RoleDelete, 
+			levels: ["high", "mid"]
+		})
+		
+		if(!control) console.log("yetersiz yetki")
+			
 	} catch (error) {
         console.error('Error handling role deletion:', error);
     }

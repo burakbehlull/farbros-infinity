@@ -17,7 +17,7 @@ class Base {
 	 
 	  await commandExecuter(client, slashCommands, prefixCommands)
 	  await deploySlashCommands(this.token, this.botId, slashCommands)
-	  
+
 	  await eventExecuter(client, events) 
 	  
 	}

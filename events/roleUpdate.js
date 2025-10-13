@@ -4,7 +4,9 @@ export default {
   name: "roleUpdate", 
   async execute(client, oldRole, newRole) {
     try {
-        const manager = new Manager(client);
+		const manager = new Manager(client, {
+			action: oldRole
+		});
         await manager.authority.info(manager.audit.RoleUpdate);
 
         console.log(`[Role update old]: ${oldRole?.id}`);

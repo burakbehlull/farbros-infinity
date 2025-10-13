@@ -1,2 +1,2 @@
-export * from './guildConfigService.js'
+export * from './guildConfigDbService.js'
 export * from './botService.js'
