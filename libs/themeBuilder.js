@@ -176,7 +176,7 @@ class ThemeBuilder extends Sender {
 		return IEmbed
 	}
 	
-	embedThemeBuilder(type, {
+	async embedThemeBuilder(type, {
 		heritage=null,
 		action=false,
 		randomColor=false,
@@ -192,6 +192,7 @@ class ThemeBuilder extends Sender {
 		fields=[],
 		
 	}={}){
+		const { guildConfigFindById } = await import("#services");
 		
 		const init = action ? (theme) => ({
 			embed: theme,
@@ -202,6 +203,19 @@ class ThemeBuilder extends Sender {
 			send: (options = {}) => {
 				const { id = null, components = null } = options;
 				return this.send({ id, embed: theme, components });
+			},
+			log: async () => {
+				
+				const guildId = this.client.guild.id
+				const guildConfig = await guildConfigFindById(guildId)
+				const logChannelId = guildConfig.data.logChannelId
+				
+				if(!logChannelId) {
+					console.warn("Log Channel Id is not found")
+					return
+				}
+				
+				return this.send({ id: logChannelId, embed: theme });
 			}
 		}) : (theme)=> theme
 

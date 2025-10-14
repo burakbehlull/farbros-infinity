@@ -27,6 +27,7 @@ const guildConfigSchema = new mongoose.Schema({
   guildId: { type: String, unique: true },
   
   prefix: { type: String, default: "." },
+  logChannelId: { type: String, default: null },
 
   high: {
     type: levelSchema,

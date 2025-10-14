@@ -7,28 +7,40 @@ export default {
   async execute(client, role) {
     try {
 		
-        const { authority, theme: tb, audit } = new Manager(client, {
+        const { authority, theme: tb, audit, punish } = new Manager(client, {
 			action: role
 		});
 		
 		const control = await authority.control({
 			audit: audit.RoleDelete, 
-			levels: ["high", "mid"]
+			levels: ["high"]
 		})
 		
-		const user = await tb.getUser(control.userId)
+		const userId = control.userId
 		
-		const theme = tb.embedThemeBuilder(themes.success, {
+		if(!control.status) punish.ban(userId)
+			
+		await role.guild.roles.create({
+            name: role.name,
+            color: role.color,
+            permissions: role.permissions || [],
+			...role,
+            reason: 'Silinen rol geri yüklendi.'
+        })
+		
+		const user = await tb.getUser(userId)
+		
+		const theme = await tb.embedThemeBuilder(themes.success, {
 			  action: true,
+			  title: 'Role Guard -> Role Delete',
 			  author: tb.getNameAndAvatars("guild"),
-			  description: "başarılı",
+			  description: `${user} kullanıcı, **${role.name}** (${role.id}) rolünü sildiği için banlandı.`,
 			  footer: tb.getNameAndAvatars("user", user)
 		})
 		
-		theme.send({id: "948696953695383643"})
+		await theme.log()
 	
-		if(!control.status) console.log("yetersiz yetki")
-			
+		
 	} catch (error) {
         console.error('Error handling role deletion:', error);
     }
