@@ -29,6 +29,28 @@ async function guildConfigFindById(guildId){
 	}	
 }
 
+async function guildConfigUpdate(guildId, data){
+	const guildConfig = await GuildConfig.findOne({guildId})
+	
+	if(data.enable) guildConfig.enable = data.enable
+	if(data.prefix) guildConfig.prefix = data.prefix
+	if(data.logChannelId) guildConfig.logChannelId = data.logChannelId
+	if(data.jailRoleId) guildConfig.jailRoleId = data.jailRoleId
+	if(data.punishmentType) guildConfig.punishmentType = data.punishmentType
+	
+	const result = await data.save()
+	if (!data) return {
+		success: false,
+		message: 'Böyle bir guild yok'	
+	}
+	return {
+		success: true,
+		message: 'Döküman güncellendi.',
+		data: result
+	}	
+}
+
+
 async function addItemToGuildConfig({guildId, level, type, data}){
 	
 	let guildConfig = await GuildConfig.findOne({ guildId });
@@ -95,5 +117,6 @@ async function addItemToGuildConfig({guildId, level, type, data}){
 export {
 	createGuildConfig,
 	guildConfigFindById,
-	addItemToGuildConfig
+	addItemToGuildConfig,
+	guildConfigUpdate
 }
