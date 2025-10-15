@@ -1,10 +1,14 @@
 import { Events } from 'discord.js';
+import { guildConfigFindById } from '#services'
 
 export default {
   name: Events.MessageCreate, 
   async execute(client, message) {
 	
-    const prefix = "."
+	const guildId = message.guild.id
+	const guildConfig = await guildConfigFindById(guildId)
+	
+    const prefix = guildConfig.data.prefix || "."
 	
 	if(message.author.bot) return
 
