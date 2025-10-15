@@ -25,7 +25,7 @@ const levelSchema = new mongoose.Schema({
 
 const guildConfigSchema = new mongoose.Schema({
 	
-  // enable: { type: Boolean, default: false }
+  enable: { type: Boolean, default: true },
   prefix: { type: String, default: "." },
   
   guildId: { type: String, unique: true },

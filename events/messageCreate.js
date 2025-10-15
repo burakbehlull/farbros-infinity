@@ -3,6 +3,7 @@ import { Events } from 'discord.js';
 export default {
   name: Events.MessageCreate, 
   async execute(client, message) {
+	
     const prefix = "."
 	
 	if(message.author.bot) return

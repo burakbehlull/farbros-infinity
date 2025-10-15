@@ -99,7 +99,10 @@ export default class AuthorityManager {
 		checks.push(owner)
 		checks.push(selectedMembers)
 		
+		if (userId === process.env.BOT_ID) checks.push(true)
+		
 		const check = checks.includes(true)
+		
 		return { 
 			userId: userId, 
 			guildId: guildId,

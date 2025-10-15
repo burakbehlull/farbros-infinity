@@ -152,6 +152,11 @@ export default class PunishManager {
 		if(!guildConfig.success) await createGuildConfig(guildId)
 			
 		const guildData = guildConfig.data
+		
+		if(!guildData.enable) {
+			console.warn(`[punishManager / execute - ${guildId}]: Enable, false.`)
+			return 
+		}
 
 		const choice = choose ? choose : guildData.punishmentType
 		

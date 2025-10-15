@@ -18,6 +18,8 @@ export default {
 		
 		const userId = control.userId
 		
+		
+		
 		if(!control.status) punish.execute(userId)
 			
 		await role.guild.roles.create({
@@ -34,7 +36,7 @@ export default {
 			  action: true,
 			  title: 'Role Guard -> Role Delete',
 			  author: tb.getNameAndAvatars("guild"),
-			  description: `${user} kullanıcı, **${role.name}** (${role.id}) rolünü sildiği için banlandı.`,
+			  description: `${user} kullanıcı, **${role.name}** (${role.id}) rolünü sildiği için cezalandırıldı.`,
 			  footer: tb.getNameAndAvatars("user", user)
 		})
 		
