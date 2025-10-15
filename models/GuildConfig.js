@@ -24,10 +24,12 @@ const levelSchema = new mongoose.Schema({
 });
 
 const guildConfigSchema = new mongoose.Schema({
+  prefix: { type: String, default: "." },
+  
   guildId: { type: String, unique: true },
   
-  prefix: { type: String, default: "." },
   logChannelId: { type: String, default: null },
+  jailRoleId: { type: String, default: null },
 
   high: {
     type: levelSchema,

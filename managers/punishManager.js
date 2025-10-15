@@ -58,8 +58,7 @@ export default class PunishManager {
             }
 			
 			return {
-				success: true,
-				data: result
+				success: true
 			}
 		} catch(err){
 			console.error("[punishManager / ban]: ", err)
@@ -84,8 +83,7 @@ export default class PunishManager {
 			}
 			
 			return {
-				success: true,
-				data: result
+				success: true
 			}
 		} catch (err) {
 			console.error("[PunishManager / deleteUserRoles]:", error);
@@ -93,6 +91,33 @@ export default class PunishManager {
 				success: false,
 				error: err
 			}
+		}
+	}
+	
+	async jail(userId) {
+		const { guildConfigFindById } = await import("#services")
+		
+		try {
+			const guildId = this.guild.id
+			const guildConfig = await guildConfigFindById(guildId) 
+			const jailRoleId = guildConfig?.data?.jailRoleId
+			
+			if(!jailRoleId){
+				console.warn("Jail role id is null")
+				return
+			}
+			
+			const member = this.guild.members.cache.get(userId);
+			if (!member) return false;
+
+			await member.roles.add(jailRole);
+			
+			return {
+				success: true,
+			}
+		} catch (error) {
+			console.error("[PunishManager / jail]:", error);
+			return false
 		}
 	}
 }

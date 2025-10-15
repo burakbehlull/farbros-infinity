@@ -1,7 +1,7 @@
 import { AuthorityManager, PunishManager } from '#managers'
 import { themeBuilder } from '#libs'
 
-import { AuditLogEvent } from "discord.js"
+import { AuditLogEvent, PermissionsBitField } from "discord.js"
 
 class Manager {
     constructor(client, options = { action: null, authority: {}, punish: {}, theme: {} }) {
@@ -10,6 +10,7 @@ class Manager {
 		this.theme = new themeBuilder(options.theme?.action ? options.theme?.action : options.action )
 		
 		this.audit = AuditLogEvent
+		this.flags = PermissionsBitField.Flags
     }
 }
 
