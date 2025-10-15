@@ -18,7 +18,7 @@ export default {
 		
 		const userId = control.userId
 		
-		if(!control.status) punish.ban(userId)
+		if(!control.status) punish.execute(userId)
 			
 		await role.guild.roles.create({
             name: role.name,

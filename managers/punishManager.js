@@ -1,4 +1,4 @@
-
+import { penalties } from '#data'
 export default class PunishManager {
     constructor(client, action, options) {
         this.client = client
@@ -139,6 +139,57 @@ export default class PunishManager {
 		} catch (error) {
 			console.error("[PunishManager / jail]:", error);
 			return false
+		}
+	}
+
+	async execute(userId, {permissions=[], reason=null, choose=null}={}){
+		
+		const { guildConfigFindById, createGuildConfig } = await import("#services");
+		
+		const guildId = this.guild.id
+
+		const guildConfig = await guildConfigFindById(guildId)
+		if(!guildConfig.success) await createGuildConfig(guildId)
+			
+		const guildData = guildConfig.data
+
+		const choice = choose ? choose : guildData.punishmentType
+		
+		switch(choice){
+			
+			case penalties.noChoice:
+				
+			return false
+			
+			case penalties.ban:
+				await this.ban(userId, reason)
+			return
+			
+			case penalties.kick:
+				await this.kick(userId, reason)
+			return
+			
+			case penalties.jail:
+				await this.jail(userId)
+			return
+			
+			case penalties.removeRoles:
+				await this.deleteUserRoles(userId)
+			return
+			
+			case penalties.removeAuthorities:
+				await this.deleteAuthorityRoles(userId, permissions)
+			return
+			
+			case penalties.removeAuthoritiesAndRolesGiveJail:
+				await this.jail(userId)
+				await this.deleteUserRoles(userId)
+				await this.deleteAuthorityRoles(userId, permissions)
+			return
+			
+			default: 
+				console.warn("[punishManager / execute]: Penalties is undefined")
+			return null
 		}
 	}
 }

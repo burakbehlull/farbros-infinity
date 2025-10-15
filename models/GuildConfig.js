@@ -24,12 +24,20 @@ const levelSchema = new mongoose.Schema({
 });
 
 const guildConfigSchema = new mongoose.Schema({
+	
+  // enable: { type: Boolean, default: false }
   prefix: { type: String, default: "." },
   
   guildId: { type: String, unique: true },
   
   logChannelId: { type: String, default: null },
   jailRoleId: { type: String, default: null },
+  punishmentType: { 
+	  type: String, 
+	  enum: ["no-choice", "ban", "kick", "jail", "remove-roles", "remove-authorities", "remove-authorities-and-roles-give-jail"], 
+	  required: true,
+	  default: "ban",
+  },
 
   high: {
     type: levelSchema,
