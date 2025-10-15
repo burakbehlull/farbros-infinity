@@ -27,6 +27,27 @@ export default class PunishManager {
 		}
        
     }
+	
+	async kick(userId, reason){
+		try {
+			const action = this.guild
+			
+			const member = action.members.cache.get(userId)
+			const result = await member.kick({reason})
+			
+			return {
+				success: true,
+				data: result
+			}
+		} catch(err){
+			console.error("[punishManager / kick]: ", err)
+			return {
+				success: false,
+				error: err
+			}
+		}
+       
+    }
 
     async deleteAuthorityRoles(userId, permissions){
 		try {
