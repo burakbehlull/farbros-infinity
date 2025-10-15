@@ -71,5 +71,28 @@ export default class PunishManager {
        
     }
 
+	async deleteUserRoles(userId) {
+		try {
+			const member = this.guild.members.cache.get(userId);
+			if (!member) return false;
 
+			const roles = member.roles.cache.filter((r) => r.id !== this.guild.id);
+			if (roles.size === 0) return false;
+
+			for (const role of roles.values()) {
+				await member.roles.remove(role);
+			}
+			
+			return {
+				success: true,
+				data: result
+			}
+		} catch (err) {
+			console.error("[PunishManager / deleteUserRoles]:", error);
+			return {
+				success: false,
+				error: err
+			}
+		}
+	}
 }
