@@ -169,34 +169,34 @@ export default class PunishManager {
 			
 			case penalties.ban:
 				result = await this.ban(userId, reason)
-			return { message: `<@${userId}> (${userId}) adlı kullanıcı banlandı`, ...result }
+			return { message: `<@${userId}> (${userId}) kullanıcı banlandı`, ...result }
 			
 			
 			case penalties.kick:
 				result = await this.kick(userId, reason)
-			return { message: `<@${userId}> (${userId}) adlı kullanıcı atıldı`, ...result }
+			return { message: `<@${userId}> (${userId}) kullanıcı atıldı`, ...result }
 			
 			
 			case penalties.jail:
 				result = await this.jail(userId)
-			return { message: `<@${userId}> (${userId}) adlı kullanıcı jaile atıldı`, ...result }
+			return { message: `<@${userId}> (${userId}) kullanıcı jaile atıldı`, ...result }
 			
 			
 			case penalties.removeRoles:
 				result = await this.deleteUserRoles(userId)
-			return { message: `<@${userId}> (${userId}) adlı kullanıcı'nın rolleri alındı`, ...result }
+			return { message: `<@${userId}> (${userId}) kullanıcı'nın rolleri alındı`, ...result }
 			
 			
 			case penalties.removeAuthorities:
 				result = await this.deleteAuthorityRoles(userId, permissions)
-			return { message: `<@${userId}> (${userId}) adlı kullanıcı'nın yetkileri alındı`, ...result }
+			return { message: `<@${userId}> (${userId}) kullanıcı'nın yetkileri alındı`, ...result }
 			
 			
 			case penalties.removeAuthoritiesAndRolesGiveJail:
 				await this.jail(userId)
 				await this.deleteUserRoles(userId)
 				await this.deleteAuthorityRoles(userId, permissions)
-			return { message: `<@${userId}> (${userId}) adlı kullanıcı jaile atılıp, yetki ve rolleri alındı`, success: true }
+			return { message: `<@${userId}> (${userId}) kullanıcı jaile atılıp, yetki ve rolleri alındı`, success: true }
 			
 			
 			default: 
