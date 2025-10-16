@@ -160,41 +160,48 @@ export default class PunishManager {
 
 		const choice = choose ? choose : guildData.punishmentType
 		
+		let result;
 		switch(choice){
 			
 			case penalties.noChoice:
 				
-			return false
+			return { success: false }
 			
 			case penalties.ban:
-				await this.ban(userId, reason)
-			return
+				result = await this.ban(userId, reason)
+			return { message: `<@${userId}> (${userId}) adlı kullanıcı banlandı`, ...result }
+			
 			
 			case penalties.kick:
-				await this.kick(userId, reason)
-			return
+				result = await this.kick(userId, reason)
+			return { message: `<@${userId}> (${userId}) adlı kullanıcı atıldı`, ...result }
+			
 			
 			case penalties.jail:
-				await this.jail(userId)
-			return
+				result = await this.jail(userId)
+			return { message: `<@${userId}> (${userId}) adlı kullanıcı jaile atıldı`, ...result }
+			
 			
 			case penalties.removeRoles:
-				await this.deleteUserRoles(userId)
-			return
+				result = await this.deleteUserRoles(userId)
+			return { message: `<@${userId}> (${userId}) adlı kullanıcı'nın rolleri alındı`, ...result }
+			
 			
 			case penalties.removeAuthorities:
-				await this.deleteAuthorityRoles(userId, permissions)
-			return
+				result = await this.deleteAuthorityRoles(userId, permissions)
+			return { message: `<@${userId}> (${userId}) adlı kullanıcı'nın yetkileri alındı`, ...result }
+			
 			
 			case penalties.removeAuthoritiesAndRolesGiveJail:
 				await this.jail(userId)
 				await this.deleteUserRoles(userId)
 				await this.deleteAuthorityRoles(userId, permissions)
-			return
+			return { message: `<@${userId}> (${userId}) adlı kullanıcı jaile atılıp, yetki ve rolleri alındı`, success: true }
+			
 			
 			default: 
 				console.warn("[punishManager / execute]: Penalties is undefined")
-			return null
+			return { success: false }
 		}
 	}
 }

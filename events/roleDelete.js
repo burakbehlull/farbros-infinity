@@ -4,6 +4,7 @@ import { themes } from '#data'
 
 export default {
   name: "roleDelete", 
+  
   async execute(client, role) {
     try {
 		
@@ -15,13 +16,13 @@ export default {
 			audit: audit.RoleDelete, 
 			levels: ["high"]
 		})
+
+		if(control.status) return
 		
 		const userId = control.userId
 		
-		
-		
-		if(!control.status) punish.execute(userId)
-			
+		const punishment = await punish.execute(userId)
+
 		await role.guild.roles.create({
             name: role.name,
             color: role.color,
@@ -36,7 +37,7 @@ export default {
 			  action: true,
 			  title: 'Role Guard -> Role Delete',
 			  author: tb.getNameAndAvatars("guild"),
-			  description: `${user} kullanıcı, **${role.name}** (${role.id}) rolünü sildiği için cezalandırıldı.`,
+			  description: `${user} kullanıcı, **${role.name}** (${role.id}) rolünü sildi. ${punishment?.success ? punishment?.message : ''}`,
 			  footer: tb.getNameAndAvatars("user", user)
 		})
 		

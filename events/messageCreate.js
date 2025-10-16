@@ -1,10 +1,11 @@
 import { Events } from 'discord.js';
-import { guildConfigFindById } from '#services'
 
 export default {
   name: Events.MessageCreate, 
   async execute(client, message) {
 	
+	const { guildConfigFindById } = await import("#services");
+			
 	const guildId = message.guild.id
 	const guildConfig = await guildConfigFindById(guildId)
 	
