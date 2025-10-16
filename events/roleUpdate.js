@@ -11,7 +11,7 @@ export default {
 		
 		const control = await authority.control({
 			audit: audit.RoleUpdate, 
-			levels: ["high"]
+			levels: ["low"]
 		})
 
 		if(control.status) return

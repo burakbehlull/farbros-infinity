@@ -14,7 +14,7 @@ export default {
 		
 		const control = await authority.control({
 			audit: audit.RoleDelete, 
-			levels: ["high"]
+			levels: ["mid"]
 		})
 
 		if(control.status) return
@@ -23,7 +23,7 @@ export default {
 		
 		const punishment = await punish.execute(userId)
 
-		await role.guild.roles.create({
+		const newRole = await role.guild.roles.create({
             name: role.name,
             color: role.color,
             permissions: role.permissions || [],
@@ -37,7 +37,7 @@ export default {
 			  action: true,
 			  title: 'Role Guard -> Role Delete',
 			  author: tb.getNameAndAvatars("guild"),
-			  description: `${user} kullanıcı, **${role.name}** (${role.id}) rolünü sildi. ${punishment?.success ? punishment?.message : ''}`,
+			  description: `${user} kullanıcı, **${role.name}** (${role.id}) rolünü sildi. Rol yeniden oluşturuldu: ${newRole} ${punishment?.success ? punishment?.message : ''}`,
 			  footer: tb.getNameAndAvatars("user", user)
 		})
 		
