@@ -21,6 +21,7 @@ class Action {
 	
 	async initAsync(){
 		const data = {
+			body: this.body || null,
 			data: this.body?.data || {},
 			params: this.params || {},
 			query: this.query || {},

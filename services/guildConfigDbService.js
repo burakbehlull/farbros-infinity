@@ -39,6 +39,7 @@ async function guildConfigUpdate(guildId, data){
 	if(data.punishmentType) guildConfig.punishmentType = data.punishmentType
 	
 	const result = await data.save()
+	
 	if (!data) return {
 		success: false,
 		message: 'Böyle bir guild yok'	

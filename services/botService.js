@@ -1,4 +1,5 @@
 import bot from '#bot'
+import { guildConfigUpdate } from '#services'
 
 const getServersFromBot = async ()=>{
     try {
@@ -25,6 +26,37 @@ const getServersFromBot = async ()=>{
     }
 }
 
+const guildSettingsUpdate = async (values)=>{
+	const { params, data } = values
+	
+	const { guildId } = params
+	const { data } = data
+	
+    try {
+		const guildConfig = await guildConfigUpdate(guildId, data)
+
+		if(!guildConfig.success) return {
+            success: false,
+			message: 'Sunucu değerleri güncellenemedi.',
+			code: 400
+        }
+        return {
+            success: true,
+			message: 'Sunucu değerleri güncellendi.',
+			data: guildConfig,
+			code: 200
+        }
+    } catch (err) {
+		console.log("[ERROR | BotService/guildSettingsUpdate]: ", err)
+        return {
+			success: false,
+			message: err.message,
+			error: err,
+			code: 400
+		}
+    }
+}
 export {
-	getServersFromBot
+	getServersFromBot,
+	guildSettingsUpdate
 }
