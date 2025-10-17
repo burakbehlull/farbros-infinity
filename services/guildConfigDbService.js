@@ -52,7 +52,7 @@ async function guildConfigUpdate(guildId, data){
 }
 
 
-async function addItemToGuildConfig({guildId, level, type, data}){
+async function addItemToGuildConfig(guildId, {level, type, data}){
 	
 	let guildConfig = await GuildConfig.findOne({ guildId });
 	if (!guildConfig) {
