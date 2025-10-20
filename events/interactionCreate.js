@@ -2,6 +2,7 @@ import { Events } from 'discord.js';
 
 export default {
   name: Events.InteractionCreate,
+  panelName: "slashCommandExecuter",
   async execute(client, interaction) {
 
     if (!interaction.isChatInputCommand()) return;

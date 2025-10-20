@@ -2,6 +2,7 @@ import { Events } from 'discord.js';
 
 export default {
   name: Events.MessageCreate, 
+  panelName: "messageCommandExecuter",
   async execute(client, message) {
 	
 	const { guildConfigFindById } = await import("#services");
@@ -9,7 +10,7 @@ export default {
 	const guildId = message.guild.id
 	const guildConfig = await guildConfigFindById(guildId)
 	
-    const prefix = guildConfig.data.prefix || "."
+    const prefix = guildConfig?.data?.get("prefix") || "."
 	
 	if(message.author.bot) return
 

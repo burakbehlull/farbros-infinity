@@ -3,11 +3,15 @@ import { themes } from '#data'
 
 export default {
   name: "channelDelete", 
+  
   async execute(client, channel) {
     try {
         const { authority, theme: tb, audit, punish } = new Manager(client, {
 			action: channel
 		});
+		
+		const isEnable = await authority.isEnable("channelDeleteGuard")
+		if(!isEnable) return
 		
 		const control = await authority.control({
 			audit: audit.ChannelDelete, 

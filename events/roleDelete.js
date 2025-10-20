@@ -3,8 +3,7 @@ import Manager from "#managers";
 import { themes } from '#data'
 
 export default {
-  name: "roleDelete", 
-  
+  name: "roleDelete",  
   async execute(client, role) {
     try {
 		
@@ -12,11 +11,14 @@ export default {
 			action: role
 		});
 		
+		const isEnable = await authority.isEnable("roleDeleteGuard")
+		if(!isEnable) return
+		
 		const control = await authority.control({
 			audit: audit.RoleDelete, 
 			levels: ["mid"]
 		})
-
+		
 		if(control.status) return
 		
 		const userId = control.userId

@@ -2,12 +2,15 @@ import Manager from "#managers";
 import { themes } from '#data'
 
 export default {
-  name: "roleUpdate", 
+  name: "roleUpdate",
   async execute(client, oldRole, newRole) {
     try {
 		const { authority, theme: tb, audit, punish } = new Manager(client, {
 			action: oldRole
 		});
+		
+		const isEnable = await authority.isEnable("roleUpdateGuard")
+		if(!isEnable) return
 		
 		const control = await authority.control({
 			audit: audit.RoleUpdate, 

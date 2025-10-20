@@ -149,11 +149,15 @@ export default class PunishManager {
 		const guildId = this.guild.id
 
 		const guildConfig = await guildConfigFindById(guildId)
-		if(!guildConfig.success) await createGuildConfig(guildId)
+		
+		if(!guildConfig.success) {
+			console.warn(`[punishManager / execute - ${guildId}]: guild config, null.`)
+			return 
+		}
 			
 		const guildData = guildConfig.data
 		
-		if(!guildData.enable) {
+		if(!guildData?.enable) {
 			console.warn(`[punishManager / execute - ${guildId}]: Enable, false.`)
 			return 
 		}

@@ -9,6 +9,9 @@ export default {
 			action: oldChannel
 		});
 		
+		const isEnable = await authority.isEnable("channelUpdateGuard")
+		if(!isEnable) return
+		
 		const control = await authority.control({
 			audit: audit.ChannelUpdate, 
 			levels: ["low"]

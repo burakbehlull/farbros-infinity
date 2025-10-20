@@ -101,6 +101,7 @@ export default class AuthorityManager {
 		checks.push(selectedMembers)
 		
 		if (userId == process.env.BOT_ID) checks.push(true)
+		if (userId == process?.env?.OWNER_ID) checks.push(true)
 
 		const check = checks.includes(true)
 		
@@ -111,4 +112,21 @@ export default class AuthorityManager {
 		}
 	}
 
+	async isEnable(type){
+		const { guildConfigFindById } = await import("#services");
+		
+		const guildId = this.guild.id 
+		const guildConfig = await guildConfigFindById(guildId)
+		
+		if(!guildConfig?.success) return false
+		
+		const guildData = guildConfig?.data?.toObject()
+		
+		
+		if(!guildData?.enable) return false
+
+		const control = guildData[type] || false
+		
+		return control
+	}
 }

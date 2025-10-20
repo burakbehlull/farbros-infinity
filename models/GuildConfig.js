@@ -32,12 +32,21 @@ const guildConfigSchema = new mongoose.Schema({
   
   logChannelId: { type: String, default: null },
   jailRoleId: { type: String, default: null },
+  
   punishmentType: { 
 	  type: String, 
 	  enum: ["no-choice", "ban", "kick", "jail", "remove-roles", "remove-authorities", "remove-authorities-and-roles-give-jail"], 
 	  required: true,
 	  default: "ban",
   },
+  
+  roleDeleteGuard: { type: Boolean, default: true },
+  roleUpdateGuard: { type: Boolean, default: false },
+  channelDeleteGuard: { type: Boolean, default: true },
+  channelUpdateGuard: { type: Boolean, default: true },
+  
+  messageCommandExecuter: { type: Boolean, default: true },
+  slashCommandExecuter: { type: Boolean, default: true },
 
   high: {
     type: levelSchema,
