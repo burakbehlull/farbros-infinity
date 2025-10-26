@@ -51,7 +51,6 @@ async function guildConfigUpdate(guildId, data){
 	}	
 }
 
-
 async function addItemToGuildConfig(guildId, {level, type, data}){
 	
 	let guildConfig = await GuildConfig.findOne({ guildId });
@@ -115,9 +114,90 @@ async function addItemToGuildConfig(guildId, {level, type, data}){
 	
 }
 
+async function removeItemFromGuildConfig(guildId, { level, type, data }) {
+  let guildConfig = await GuildConfig.findOne({ guildId });
+  if (!guildConfig) {
+    return {
+      success: false,
+      message: 'Bu sunucu için bir yapılandırma bulunamadı!'
+    };
+  }
+
+  const mode = guildConfig[level];
+  const result = mode[type];
+
+  switch (type) {
+    case 'members':
+      if (!result.includes(data)) {
+        return {
+          success: false,
+          message: 'Bu üye zaten listede değil!'
+        };
+      }
+      mode.members = result.filter(item => item !== data);
+      await guildConfig.save();
+      return {
+        success: true,
+        message: 'Üye kaldırıldı.'
+      };
+
+    case 'authorities':
+      if (!result.includes(data)) {
+        return {
+          success: false,
+          message: 'Bu yetki zaten listede değil!'
+        };
+      }
+      mode.authorities = result.filter(item => item !== data);
+      await guildConfig.save();
+      return {
+        success: true,
+        message: 'Yetki kaldırıldı.'
+      };
+
+    case 'roles':
+      if (!result.includes(data)) {
+        return {
+          success: false,
+          message: 'Bu rol zaten listede değil!'
+        };
+      }
+      mode.roles = result.filter(item => item !== data);
+      await guildConfig.save();
+      return {
+        success: true,
+        message: 'Rol kaldırıldı.'
+      };
+
+    case 'enable':
+      mode.enable = false;
+      await guildConfig.save();
+      return {
+        success: true,
+        message: 'Enable devre dışı bırakıldı.'
+      };
+
+    case 'isAuthorities':
+      mode.isAuthorities = false;
+      await guildConfig.save();
+      return {
+        success: true,
+        message: 'Authority enable devre dışı bırakıldı.'
+      };
+
+    default:
+      return {
+        success: false,
+        message: 'Geçersiz tür belirtildi.'
+      };
+  }
+}
+
+
 export {
 	createGuildConfig,
 	guildConfigFindById,
 	addItemToGuildConfig,
+	removeItemFromGuildConfig,
 	guildConfigUpdate
 }
