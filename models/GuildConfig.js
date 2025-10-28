@@ -41,12 +41,14 @@ const guildConfigSchema = new mongoose.Schema({
   },
   
   roleDeleteGuard: { type: Boolean, default: true },
-  roleUpdateGuard: { type: Boolean, default: false },
+  roleUpdateGuard: { type: Boolean, default: true },
   channelDeleteGuard: { type: Boolean, default: true },
   channelUpdateGuard: { type: Boolean, default: true },
+  botAddGuard: { type: Boolean, default: true },
   
   messageCommandExecuter: { type: Boolean, default: true },
   slashCommandExecuter: { type: Boolean, default: true },
+  
 
   high: {
     type: levelSchema,
