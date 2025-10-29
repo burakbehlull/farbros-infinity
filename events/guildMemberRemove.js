@@ -5,9 +5,6 @@ export default {
   name: "guildMemberRemove",
   async execute(client, member) {
     try {
-		
-		const isBot = member.user.bot
-		if(!isBot) return
 
 		const { authority, theme: tb, audit, punish } = new Manager(client, {
 			action: member
