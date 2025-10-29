@@ -71,7 +71,6 @@ export default class AuthorityManager {
 
 		const info = audit ? await this.info(audit) : null
 		const userId = audit ? info.executorId : newUserId
-		const isBot = info?.target?.bot
 		
 		const guildId = this.guild.id
 		
@@ -108,8 +107,7 @@ export default class AuthorityManager {
 		return { 
 			userId: userId, 
 			guildId: guildId,
-			status: check,
-			bot: isBot || false
+			status: check
 		}
 	}
 

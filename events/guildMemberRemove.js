@@ -20,8 +20,8 @@ export default {
 			audit: audit.MemberKick, 
 			levels: ["mid"]
 		})
-
-		if(control.status || control.bot) return
+		
+		if(control.status) return
 		
 		const userId = control.userId
 		
