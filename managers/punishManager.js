@@ -142,6 +142,27 @@ export default class PunishManager {
 		}
 	}
 
+	async disableRoleAuthorities(permissionsToRemove = []) {
+		try {
+			const roles = this.guild.roles.cache;
+
+			for (const [id, role] of roles) {
+				if (role.managed || role.name === "@everyone") continue;
+
+				const newPerms = role.permissions.remove(permissionsToRemove);
+
+				await role.setPermissions(newPerms).catch(() => {});
+			}
+
+			return {
+				success: true,
+			}
+		} catch (error) {
+			console.error("[PunishManager / disableRoleAuthorities]:", error);
+			return false
+		}
+	}
+
 	async execute(userId, {permissions=[], reason=null, choose=null}={}){
 		
 		const { guildConfigFindById, createGuildConfig } = await import("#services");
@@ -195,6 +216,15 @@ export default class PunishManager {
 				result = await this.deleteAuthorityRoles(userId, permissions)
 			return { message: `<@${userId}> (${userId}) kullanıcı'nın yetkileri alındı`, ...result }
 			
+			case penalties.disableRoleAuthorities:
+				result = await this.disableRoleAuthorities(permissions)
+			return { message: `<@${userId}> (${userId}), değişiklik yaptığı için **sunucudaki yetkiler kapatıldı**.`, ...result }
+			
+			case penalties.banAndDisableGuildAuthorities:
+				await this.ban(userId, reason)
+				await this.disableRoleAuthorities(permissions)
+			return { message: `<@${userId}> (${userId}) kullanıcı banlandı ve sunucu yetkileri kapatıldı`, success: true }
+			
 			
 			case penalties.removeAuthoritiesAndRolesGiveJail:
 				await this.jail(userId)
@@ -202,7 +232,7 @@ export default class PunishManager {
 				await this.deleteAuthorityRoles(userId, permissions)
 			return { message: `<@${userId}> (${userId}) kullanıcı jaile atılıp, yetki ve rolleri alındı`, success: true }
 			
-			
+
 			default: 
 				console.warn("[punishManager / execute]: Penalties is undefined")
 			return { success: false }

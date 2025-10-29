@@ -7,6 +7,9 @@ export const penalties = {
 	
 	removeRoles: "remove-roles", 
 	removeAuthorities: "remove-authorities", 
-	removeAuthoritiesAndRolesGiveJail: "remove-authorities-and-roles-give-jail"
+	removeAuthoritiesAndRolesGiveJail: "remove-authorities-and-roles-give-jail",
+	disableRoleAuthorities: "disable-role-authorities",
+	banAndDisableGuildAuthorities: "ban-and-disable-guild-authorities"
+	
 	
 }

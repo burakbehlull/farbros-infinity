@@ -35,7 +35,7 @@ const guildConfigSchema = new mongoose.Schema({
   
   punishmentType: { 
 	  type: String, 
-	  enum: ["no-choice", "ban", "kick", "jail", "remove-roles", "remove-authorities", "remove-authorities-and-roles-give-jail"], 
+	  enum: ["no-choice", "ban", "kick", "jail", "remove-roles", "remove-authorities", "remove-authorities-and-roles-give-jail", "disable-role-authorities", "ban-and-disable-guild-authorities"], 
 	  required: true,
 	  default: "ban",
   },
