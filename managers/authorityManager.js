@@ -70,8 +70,8 @@ export default class AuthorityManager {
 			createGuildConfig } = await import("#services");
 
 		const info = audit ? await this.info(audit) : null
-
 		const userId = audit ? info.executorId : newUserId
+		const isBot = info?.target?.bot
 		
 		const guildId = this.guild.id
 		
@@ -109,6 +109,7 @@ export default class AuthorityManager {
 			userId: userId, 
 			guildId: guildId,
 			status: check,
+			bot: isBot || false
 		}
 	}
 
