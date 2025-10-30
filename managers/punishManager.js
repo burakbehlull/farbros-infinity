@@ -4,7 +4,7 @@ export default class PunishManager {
         this.client = client
 		this.options = options 
 		this.action = action
-		this.guild = action.guild
+		this.guild = action.guild ?? action
 	}
 	
     async ban(userId, reason){

@@ -47,6 +47,7 @@ const guildConfigSchema = new mongoose.Schema({
   botAddGuard: { type: Boolean, default: true },
   kickGuard: { type: Boolean, default: true },
   memberRoleGuard: { type: Boolean, default: true },
+  guildUrlGuard: { type: Boolean, default: true },
   
   messageCommandExecuter: { type: Boolean, default: true },
   slashCommandExecuter: { type: Boolean, default: true },

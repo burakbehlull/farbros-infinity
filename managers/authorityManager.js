@@ -5,7 +5,7 @@ export default class AuthorityManager {
         this.client = client
 		this.options = options
 		this.action = action
-		this.guild = action.guild
+		this.guild = action.guild ?? action
     }
 	
     async info(type){
