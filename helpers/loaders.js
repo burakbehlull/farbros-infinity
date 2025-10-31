@@ -57,21 +57,20 @@ async function getSlashCommands() {
 }
 
 async function getEvents() {
-  const events = []
-	
+  const events = [];
   const eventsPath = path.join(__dirname, "../events");
-  const eventFiles = fs.readdirSync(eventsPath).filter(f => f.endsWith(".js") || f.endsWith(".ts"));
-
-  for (const file of eventFiles) {
-    const event = (await import(`file://${path.join(eventsPath, file)}`)).default;
+  const eventFiles = await getFilesRecursively(eventsPath);
+  
+  for (const filePath of eventFiles) {
+    const event = (await import(`file://${filePath}`)).default;
 
     if (!event?.name) continue;
       
     events.push(event);
-    
     console.log(`🎯 Event yüklendi: ${event.name}`);
   }
-  return events
+
+  return events;
 }
 
 async function deploySlashCommands(token, botId, commands) {

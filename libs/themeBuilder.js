@@ -4,6 +4,7 @@ import { themes, colors } from '#data'
 class Sender {
 	constructor(client){
 		this.client = client
+		this.guild = client.guild || client
 	}
 	
 	async getChannelHybrid(channelId, interaction){
@@ -61,7 +62,7 @@ class Sender {
 	}
 	
 	async getUser(userId) {
-		const guild = this.client.guild
+		const guild = this.guild
 		if (!userId) {
 			console.error("[Sender/getMember]: Missing userId or guild");
 			return null;
@@ -80,7 +81,7 @@ class Sender {
 	}
 	
 	async getChannel(channelId) {
-		const guild = this.client.guild
+		const guild = this.guild
 		
 		if (!channelId) {
 			console.error("[Sender/getGuildChannel]: Missing channelId or guild");
@@ -139,7 +140,7 @@ class ThemeBuilder extends Sender {
 	}
 	
 	getNameAndAvatars(type, action){
-		const interaction = action || this.client
+		const interaction = action || this.guild
 		const user = interaction.author ?? interaction.user
 
 		if(type=="user") {
@@ -150,9 +151,9 @@ class ThemeBuilder extends Sender {
 			}
 		} else if(type=="guild") {
 			return {
-				text: interaction.guild.name, 
-				name: interaction.guild.name, 
-				iconURL: interaction.guild.iconURL()
+				text: interaction.name, 
+				name: interaction.name, 
+				iconURL: interaction.iconURL()
 			}
 		}
 	}
@@ -206,7 +207,7 @@ class ThemeBuilder extends Sender {
 			},
 			log: async () => {
 				
-				const guildId = this.client.guild.id
+				const guildId = this.guild.id
 				const guildConfig = await guildConfigFindById(guildId)
 				const logChannelId = guildConfig.data.logChannelId
 				
