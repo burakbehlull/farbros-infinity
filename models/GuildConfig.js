@@ -49,6 +49,7 @@ const guildConfigSchema = new mongoose.Schema({
   channelUpdateGuard: { type: Boolean, default: true },
   
   botAddGuard: { type: Boolean, default: true },
+  webGuard: { type: Boolean, default: true },
   memberRoleGuard: { type: Boolean, default: true },
   
   guildUrlGuard: { type: Boolean, default: true },

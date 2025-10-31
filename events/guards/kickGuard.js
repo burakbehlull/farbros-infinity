@@ -25,13 +25,9 @@ export default {
 		const isLimit = await authority.getKickBanLimit(userId)
 		if(isLimit) return
 		
-		const punishment = await punish.execute(userId)
+		const punishment = await punish.execute(userId, { reason: 'Sağ tık kick' })
 
 		const user = await tb.getUser(userId)
-		
-		await user.ban({
-            reason: 'Sağ Tık Kick'
-        })
 		
 		const theme = await tb.embedThemeBuilder(themes.success, {
 			  action: true,
@@ -42,8 +38,6 @@ export default {
 		})
 		
 		await theme.log()
-		
-		
 	
     } catch (error) {
         console.error('Error handling kick add:', error);
