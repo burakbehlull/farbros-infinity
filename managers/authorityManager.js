@@ -128,4 +128,19 @@ export default class AuthorityManager {
 		
 		return control
 	}
+	
+	async getKickBanLimit(){
+		const { guildConfigFindById } = await import("#services");
+		
+		const guildId = this.guild.id 
+		const guildConfig = await guildConfigFindById(guildId)
+		
+		if(!guildConfig?.success) return false
+		
+		const limit = guildConfig?.data?.limit
+		
+		if(limit >= 3) return false
+		
+		return true
+	}
 }

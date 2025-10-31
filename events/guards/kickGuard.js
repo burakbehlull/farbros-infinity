@@ -20,6 +20,9 @@ export default {
 		
 		if(control.status) return
 		
+		const isLimit = await authority.getKickBanLimit()
+		if(isLimit) return
+		
 		const userId = control.userId
 		
 		const punishment = await punish.execute(userId)

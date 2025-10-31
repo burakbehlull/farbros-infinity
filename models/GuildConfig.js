@@ -40,6 +40,8 @@ const guildConfigSchema = new mongoose.Schema({
 	  default: "ban",
   },
   
+  kickBanLimit: { type: Number, default: 0 },
+  
   roleDeleteGuard: { type: Boolean, default: true },
   roleUpdateGuard: { type: Boolean, default: true },
   channelDeleteGuard: { type: Boolean, default: true },
