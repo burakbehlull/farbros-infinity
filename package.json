@@ -3,10 +3,19 @@
   "version": "1.0.0",
   "main": "main.js",
   "type": "module",
+  "workspaces": [
+    "client"
+  ],
   "scripts": {
-    "start": "node main.js",
-	"dev": "nodemon main.js",
-    "bot": "node main.js"
+	  
+	"server:start": "node main.js",
+	"server:dev": "nodemon main.js",
+    "server:bot": "node main.js",
+	
+    "client:dev":"cd client && npm run dev",
+	"client:build":"cd client && npm run build",
+	
+    "start": "concurrently \"npm run client:dev\" \"npm run server:start\""
   },
   "imports": {
     "#helpers": "./helpers/index.js",
@@ -33,6 +42,7 @@
     "dotenv": "^17.2.2",
     "express": "^5.1.0",
     "mongoose": "^8.18.2",
-    "morgan": "^1.10.1"
+    "morgan": "^1.10.1",
+    "concurrently": "^9.2.1"
   }
 }
