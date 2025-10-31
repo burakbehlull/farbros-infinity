@@ -2,19 +2,19 @@ import Manager from "#managers";
 import { themes } from '#data'
 
 export default {
-  name: "guildMemberRemove",
-  async execute(client, member) {
+  name: "guildBanAdd",
+  async execute(client, guild) {
     try {
 
 		const { authority, theme: tb, audit, punish } = new Manager(client, {
-			action: member
+			action: guild
 		});
 		
-		const isEnable = await authority.isEnable("kickGuard")
+		const isEnable = await authority.isEnable("banGuard")
 		if(!isEnable) return
 		
 		const control = await authority.control({
-			audit: audit.MemberKick, 
+			audit: audit.MemberBanAdd, 
 			levels: ["mid"]
 		})
 		
@@ -30,14 +30,14 @@ export default {
 		const user = await tb.getUser(userId)
 		
 		await user.ban({
-            reason: 'Sağ Tık Kick'
+            reason: 'Sağ Tık Ban'
         })
 		
 		const theme = await tb.embedThemeBuilder(themes.success, {
 			  action: true,
-			  title: 'Kick Guard -> Kick Add',
+			  title: 'Ban Guard -> Ban Add',
 			  author: tb.getNameAndAvatars("guild"),
-			  description: `${user} kullanıcı, **${member}** (${member?.id}) adlı kullanıcıyı kickledi. ${punishment?.success ? punishment?.message : ''}`,
+			  description: `${user} kullanıcı, **${member}** (${member?.id}) adlı kullanıcıyı banladı. ${punishment?.success ? punishment?.message : ''}`,
 			  footer: tb.getNameAndAvatars("user", user)
 		})
 		
@@ -46,7 +46,7 @@ export default {
 		
 	
     } catch (error) {
-        console.error('Error handling kick add:', error);
+        console.error('Error handling ban add:', error);
     }
   },
 };

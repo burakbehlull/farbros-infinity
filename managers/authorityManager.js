@@ -129,18 +129,33 @@ export default class AuthorityManager {
 		return control
 	}
 	
-	async getKickBanLimit(){
-		const { guildConfigFindById } = await import("#services");
-		
-		const guildId = this.guild.id 
-		const guildConfig = await guildConfigFindById(guildId)
-		
-		if(!guildConfig?.success) return false
-		
-		const limit = guildConfig?.data?.limit
-		
-		if(limit >= 3) return false
-		
-		return true
+	async getKickBanLimit(userId) {
+	  const { guildConfigFindById } = await import("#services");
+	  const { User } = await import("#models");
+
+	  const guildId = this.guild.id;
+
+	  const guildConfig = await guildConfigFindById(guildId);
+	  
+	  const kickBanLimitGuard = guildConfig?.data?.kickBanLimitGuard
+	  
+	  if (!guildConfig?.success || !kickBanLimitGuard) return false;
+
+	  const limit = guildConfig?.data?.limit || 3;
+
+	  const user = await User.findOne({ guildId, userId });
+	  const userLimit = user?.limit ?? 0;
+	  
+	  if (userLimit >= limit) return false;
+	  
+	  const updatedUser = await User.findOneAndUpdate(
+		{ guildId, userId },
+		{ $inc: { limit: 1 } },
+		{ new: true, upsert: true }
+	  )
+	  
+	  return true;
 	}
+
+
 }
