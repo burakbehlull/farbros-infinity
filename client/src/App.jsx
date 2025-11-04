@@ -3,7 +3,9 @@ function App() {
 
   return (
     <> 
-      Hello Farbros Infinity v2
+	  <div className="bg-blue-400">
+		Hello Farbros Infinity v2
+	  </div>
     </>
   )
 }

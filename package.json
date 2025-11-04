@@ -7,7 +7,6 @@
     "client"
   ],
   "scripts": {
-	  
 	"server:start": "node main.js",
 	"server:dev": "nodemon main.js",
     "server:bot": "node main.js",
