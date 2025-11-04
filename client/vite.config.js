@@ -1,12 +1,26 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
+import tsconfigPaths from "vite-tsconfig-paths"
+import * as path from "node:path"
+
+function way(name){
+  return path.resolve(__dirname, name)
+}
+
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), tsconfigPaths()],
   server: {
     port: 8000,
     proxy: {
       '/api': 'http://localhost:80'
     }
-  }
+  },
+  resolve: {
+    alias: {
+      '~': way('src'),
+      '@pages': way('src/pages/index'),
+      '@routes': way('src/routes/index'),
+    },
+  },
 })
