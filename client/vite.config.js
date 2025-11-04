@@ -21,6 +21,7 @@ export default defineConfig({
       '~': way('src'),
       '@pages': way('src/pages/index'),
       '@routes': way('src/routes/index'),
+      '@components': way('src/components/index'),
     },
   },
 })
