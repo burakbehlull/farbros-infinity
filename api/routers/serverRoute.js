@@ -5,10 +5,10 @@ const router = express.Router();
 
 router.get('/', (req,res)=> res.send('server route'))
 
-router.post('/server/penal/:guildId', GuildSettingsAdd);
-router.delete('/server/penal/:guildId', GuildSettingsRemove);
+router.post('/config/:guildId', GuildSettingsAdd);
+router.delete('/config/:guildId', GuildSettingsRemove);
 
-router.put('/server/:guildId', GuildSettingsUpdate);
+router.put('/:guildId', GuildSettingsUpdate);
 
 
 export default router;
