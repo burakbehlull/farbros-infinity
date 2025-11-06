@@ -26,6 +26,42 @@ const getServersFromBot = async ()=>{
     }
 }
 
+const getServerById = async (values)=>{
+	const { guildId } = values.params
+    try {
+		const server = await bot.client.guilds.fetch(guildId)
+		
+		const roles = await server.roles.fetch()
+        const channels = await server.channels.fetch()
+        const members = await server.members.fetch()
+		
+		if(!servers || !guildId) return {
+            success: false,
+			message: 'Sunucu bulunamadı',
+			code: 400
+        }
+        return {
+            success: true,
+			message: 'Bot sunucuları çekildi',
+			data: {
+				roles: roles,
+				channels: channels,
+				members: members,
+			},
+			code: 200
+        }
+    } catch (err) {
+		console.error("[ERROR | BotService/getServerById]: ", err)
+        return {
+			success: false,
+			message: err.message,
+			error: err,
+			code: 400
+		}
+    }
+}
+
+
 const guildSettingsAdd = async (values)=>{
 	
 	const { guildId } = values.params
@@ -86,7 +122,6 @@ const guildSettingsRemove = async (values)=>{
     }
 }
 
-
 const guildSettingsUpdate = async (values)=>{
 	
 	const { guildId } = values.params
@@ -123,5 +158,6 @@ export {
 	
 	guildSettingsAdd,
 	guildSettingsUpdate,
-	guildSettingsRemove
+	guildSettingsRemove,
+	getServerById
 }

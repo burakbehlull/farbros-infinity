@@ -18,11 +18,9 @@ class Base {
 	  await commandExecuter(client, slashCommands, prefixCommands)
 	  await deploySlashCommands(this.token, this.botId, slashCommands)
 
-	  await eventExecuter(client, events) 
-	  
+	  await eventExecuter(client, events)  
 	}
 	
-
 	connect(){
 		const connected = this.client.login(this.token);
 		return connected

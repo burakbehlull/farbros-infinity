@@ -2,9 +2,8 @@
 function Navbar() {
 
   return (
-    <nav className="bg-red-600 min-h-screen"> 
+    <nav className="bg-blue-600"> 
 		navbar
-		
     </nav>
   )
 }
