@@ -1,17 +1,32 @@
 import { useNavigate } from 'react-router-dom'
+import { LuMessageCircle } from "react-icons/lu";
+import { FaRegUser } from "react-icons/fa6";
+
+
+
 function Navbar() {
   const navigate = useNavigate()
   
   const pages = [
 	{
 		name: 'Authority Panel',
-		route: '/authority'
+		route: '/authority-panel'
 	},
 	{
 		name: 'Message Panel',
-		route: '/message'
+		route: '/message-panel'
 	}
   ]
+  
+  const getIcon = (name)=> {
+	  switch(name){
+		  case '/message-panel':
+			return <LuMessageCircle />
+		  case '/authority-panel':
+			return <FaRegUser />  
+	  }
+  }
+  
   return (
     <nav className="bg-blue-600"> 
 		<div className="navbar bg-base-100 shadow-sm">
@@ -23,14 +38,14 @@ function Navbar() {
 			  <ul
 				tabIndex="-1"
 				className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
-				{pages?.map((page, i)=> <li onClick={()=> navigate(`${page.route}`)}><a>{page.name}</a></li>)}
+				{pages?.map((page, i)=> <li onClick={()=> navigate(`${page.route}`)}><a>{getIcon(page.route)} {page.name}</a></li>)}
 			  </ul>
 			</div>
 			<a className="btn btn-ghost text-xl" onClick={()=> navigate("/")}>Farbros Infinity</a>
 		  </div>
 		  <div className="navbar-center hidden lg:flex">
 			<ul className="menu menu-horizontal px-1">
-				{pages?.map((page, i)=> <li onClick={()=> navigate(`${page.route}`)}><a>{page.name}</a></li>)}
+				{pages?.map((page, i)=> <li onClick={()=> navigate(`${page.route}`)}><a>{getIcon(page.route)} {page.name}</a></li>)}
 			</ul>
 		  </div>
 		  <div className="navbar-end">

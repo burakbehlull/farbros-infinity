@@ -1,5 +1,7 @@
+import { useNavigate } from 'react-router-dom'
 
 function NotFound() {
+  const navigate = useNavigate()
   return (
 	<div className="hero bg-base-200 min-h-screen">
 	  <div className="hero-content text-center">
@@ -9,8 +11,8 @@ function NotFound() {
 			Aradığınız sayfa bulunamadı.
 		  </p>
 		  <div className="flex gap-4 items-center justify-center">
-			<button className="btn btn-info">Anasayfa</button>
-			<button className="btn btn-primary">Bir Önceki Sayfaya Geri Dön</button>
+			<button className="btn btn-info" onClick={()=> navigate("/")}>Anasayfa</button>
+			<button className="btn btn-primary" onClick={()=> navigate(-1)}>Önceki Sayfaya Geri Dön</button>
 		  </div>
 		</div>
 	  </div>
