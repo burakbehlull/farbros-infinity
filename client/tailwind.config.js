@@ -1,3 +1,4 @@
+import daisyui from 'daisyui'
 export default {
   content: [
     "./index.html",
@@ -6,5 +7,5 @@ export default {
   theme: {
     extend: {},
   },
-  plugins: [],
+  plugins: [daisyui()],
 }
