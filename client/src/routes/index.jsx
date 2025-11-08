@@ -1,6 +1,7 @@
 import { useRoutes } from 'react-router-dom'
-import { Home } from '@pages'
-    
+import { Home, AuthorityPanel, MessagePanel } from '@pages'
+import { NotFound } from '@components'
+
 export default function Routes(){
 
     return useRoutes([
@@ -9,8 +10,16 @@ export default function Routes(){
             element: <Home />,
         },
 		{
+            path: '/message-panel',
+            element: <MessagePanel />,
+        },
+		{
+            path: '/authority-panel',
+            element: <AuthorityPanel />,
+        },
+		{
 			path: '*',
-			element: <h1> Sayfa bulunamadı </h1>
+			element: <NotFound />
 		}
     ])
 }

@@ -31,7 +31,6 @@ function Navbar() {
 		  <div className="navbar-center hidden lg:flex">
 			<ul className="menu menu-horizontal px-1">
 				{pages?.map((page, i)=> <li onClick={()=> navigate(`${page.route}`)}><a>{page.name}</a></li>)}
-
 			</ul>
 		  </div>
 		  <div className="navbar-end">
