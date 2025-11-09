@@ -9,6 +9,17 @@
 
 <br />
 
+**The authority system consists of three areas of authority**:
+` low ` ` mid ` ` high `
+
+**Powers and areas covered**:
+| Level | Scope |
+| -------- | -------- |
+| **low** | channel update, role update, web guard | 
+| **mid** | guild update, ban, kick, channel delete, role delete, member update, web guard  | 
+| **high** | bot add, url guard  | 
+
+
 **libs** classes:
 | Class | About |
 | -------- | -------- |
@@ -50,12 +61,22 @@ theme.send()
 | **createTheme** | Generater theme |
 | **embedThemeBuilder** | Uses ready theme |
 
+**sender** functions:
+| Function | Values | About |
+| -------- | -------- | -------- |
+| **getChannelHybrid** | channelId, interaction | Fetch channel in interaction and message, client | 
+| **getUserHybrid** | userId, interaction | Fetch user in interaction and message, client |
+| **getUser** | userId | Fetch user in guild |
+| **getChannel** | channelId | Fetch channel in guild |
+| **send** | obj: id, reply, text, embed, embeds, components, ephemeral | Send function |
+
 **helper** functions:
 | Class | About |
 | -------- | -------- |
 | **components** | Bot interaction utils | 
 | **loaders** | Bot file loader functions |
 | **misc** | General utils |
+
 
 
 | Genre | About | Link |
