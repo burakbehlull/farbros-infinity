@@ -8,7 +8,7 @@ router.get('/', (req,res)=> res.send('server route'))
 router.post('/config/:guildId', GuildSettingsAdd);
 router.delete('/config/:guildId', GuildSettingsRemove);
 
-router.get('/:guildId', getServerById);
+router.get('/:guildId', GetServerById);
 router.put('/:guildId', GuildSettingsUpdate);
 
 
