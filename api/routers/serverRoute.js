@@ -1,5 +1,5 @@
 import express from 'express';
-import { GuildSettingsAdd, GuildSettingsUpdate, GuildSettingsRemove, getServerById } from '#controllers';
+import { GuildSettingsAdd, GuildSettingsUpdate, GuildSettingsRemove, GetServerById } from '#controllers';
 
 const router = express.Router();
 

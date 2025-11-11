@@ -5,7 +5,7 @@ export default {
   name: "presenceUpdate",
   async execute(client, oldPresence, newPresence) {
     try {
-		if(!oldPresence.guild) return
+		if(!oldPresence?.guild) return
 		
 		const { authority, theme: tb, punish, flags } = new Manager(client, {
 			action: oldPresence

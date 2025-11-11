@@ -1,7 +1,6 @@
 import Routes from '@routes'
 import { Layout } from '@pages'
 
-
 function App() {
 
   return (

@@ -1,7 +1,7 @@
 import { API } from '@api';
 
 const botAPI = {
-    servers: () => API.get('/bots/servers', data)
+    servers: () => API.get('/bots/servers')
 }
 
 const serverAPI = {
