@@ -35,7 +35,7 @@ const getServerById = async (values)=>{
         const channels = await server.channels.fetch()
         const members = await server.members.fetch()
 		
-		if(!servers || !guildId) return {
+		if(!guildId) return {
             success: false,
 			message: 'Sunucu bulunamadı',
 			code: 400

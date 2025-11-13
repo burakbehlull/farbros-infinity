@@ -1,7 +1,7 @@
 import Layout from './Layout'
 
 import Home from './Home'
-import MessagePanel from './MessagePanel'
+import StatusPanel from './StatusPanel'
 import AuthorityPanel from './AuthorityPanel'
 
 export {
@@ -9,5 +9,5 @@ export {
 	
 	Home,
 	AuthorityPanel,
-	MessagePanel
+	StatusPanel
 }

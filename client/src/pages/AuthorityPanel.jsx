@@ -1,9 +1,10 @@
 import { InputAndTextUI, SelectUI } from '@ui'
 import { useEffect, useState } from 'react'
-import { botAPI } from '@requests'
+import { botAPI, serverAPI } from '@requests'
 
 function AuthorityPanel() {
 	const [servers, setServers] = useState([])
+	const [data, setData] = useState([])
 	const [selectedServer, setSelectedServer] = useState('')
 	
 	const getServers = async ()=> {
@@ -13,9 +14,20 @@ function AuthorityPanel() {
 		})
 		setServers(converted)
 	}
-  useEffect(()=>{
-	  getServers()
-  }, [])
+		
+	const getServer = async ()=> {
+		const result = await serverAPI.getServerInfo(selectedServer)
+		console.log("SERVER---> ", result)
+	}
+	
+	useEffect(()=>{
+		getServers()
+	}, [])
+	  
+	useEffect(()=>{
+		console.log("selected", selectedServer)
+		getServer()
+	}, [selectedServer])
   
      
   

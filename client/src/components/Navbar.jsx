@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
-import { LuMessageCircle } from "react-icons/lu";
 import { FaRegUser } from "react-icons/fa6";
+import { GrStatusCriticalSmall } from "react-icons/gr";
 
 
 
@@ -13,15 +13,15 @@ function Navbar() {
 		route: '/authority-panel'
 	},
 	{
-		name: 'Message Panel',
-		route: '/message-panel'
+		name: 'Status Panel',
+		route: '/status-panel'
 	}
   ]
   
   const getIcon = (name)=> {
 	  switch(name){
-		  case '/message-panel':
-			return <LuMessageCircle />
+		  case '/status-panel':
+			return <GrStatusCriticalSmall />
 		  case '/authority-panel':
 			return <FaRegUser />  
 	  }

@@ -5,7 +5,7 @@ const botAPI = {
 }
 
 const serverAPI = {
-	getServerInfo: (guildId, data) => API.get(`/servers/${guildId}`, data),
+	getServerInfo: (guildId) => API.get(`/servers/${guildId}`),
     
 	addSafeItemConfig: (guildId, data) => API.post(`/servers/config/${guildId}`, data),
     removeSafeItemConfig: (guildId, data) => API.delete(`/servers/config/${guildId}`, data),

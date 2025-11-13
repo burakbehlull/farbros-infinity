@@ -1,5 +1,5 @@
 import { useRoutes } from 'react-router-dom'
-import { Home, AuthorityPanel, MessagePanel } from '@pages'
+import { Home, AuthorityPanel, StatusPanel } from '@pages'
 import { NotFound } from '@components'
 
 export default function Routes(){
@@ -10,8 +10,8 @@ export default function Routes(){
             element: <Home />,
         },
 		{
-            path: '/message-panel',
-            element: <MessagePanel />,
+            path: '/status-panel',
+            element: <StatusPanel />,
         },
 		{
             path: '/authority-panel',
