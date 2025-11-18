@@ -1,5 +1,18 @@
 import { GuildConfig } from "#models"
 
+async function getGuildConfig(values){
+	const { guildId } = values.params
+	const data = await GuildConfig.findOne({guildId})
+
+	await createGuildConfig(guildId)
+
+	return {
+		success: true,
+		message: 'Döküman çekildi.',
+		data
+	}
+}
+
 async function createGuildConfig(guildId){
 	const exist = await GuildConfig.findOne({guildId})
 	if(exist) return {
@@ -40,10 +53,7 @@ async function guildConfigUpdate(guildId, data){
 	
 	const result = await data.save()
 	
-	if (!data) return {
-		success: false,
-		message: 'Böyle bir guild yok'	
-	}
+	
 	return {
 		success: true,
 		message: 'Döküman güncellendi.',
@@ -195,6 +205,7 @@ async function removeItemFromGuildConfig(guildId, { level, type, data }) {
 
 
 export {
+	getGuildConfig,
 	createGuildConfig,
 	guildConfigFindById,
 	addItemToGuildConfig,

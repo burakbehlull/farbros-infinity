@@ -1,7 +1,9 @@
 import express from 'express';
-import { GuildSettingsAdd, GuildSettingsUpdate, GuildSettingsRemove, GetServerById } from '#controllers';
+import { GuildSettingsAdd, GuildSettingsUpdate, GuildSettingsRemove, GetServerById, GetGuildSettings } from '#controllers';
 
 const router = express.Router();
+
+router.get('/config/:guildId', GetGuildSettings);
 
 router.post('/config/:guildId', GuildSettingsAdd);
 router.delete('/config/:guildId', GuildSettingsRemove);
