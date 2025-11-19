@@ -2,11 +2,20 @@ import { GuildConfig } from "#models"
 
 async function getGuildConfig(values){
 	const { guildId } = values.params
-	const data = await GuildConfig.findOne({guildId})
+	let data;
+	data = await GuildConfig.findOne({guildId})
 
-	await createGuildConfig(guildId)
+	if(!data) {
+		data = await createGuildConfig(guildId)
+		return {
+			success: false,
+			message: 'Böyle bir guild yok, yeni döküman oluşturuldu',
+			data
+		}
+	}
 
 	return {
+		code: 200,
 		success: true,
 		message: 'Döküman çekildi.',
 		data
@@ -22,6 +31,7 @@ async function createGuildConfig(guildId){
 	const guildConfig = await GuildConfig.create({guildId})
 	
 	return {
+		code: 200,
 		success: true,
 		message: 'Döküman yaratıldı.',
 		data: guildConfig
@@ -37,6 +47,7 @@ async function guildConfigFindById(guildId){
 	}
 	return {
 		success: true,
+		code: 200,
 		message: 'Döküman çekildi.',
 		data: data
 	}	

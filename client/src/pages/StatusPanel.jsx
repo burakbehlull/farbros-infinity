@@ -16,8 +16,9 @@ function StatusPanel() {
 	}
 		
 	const getServer = async ()=> {
-		const result = await serverAPI.getServerInfo(selectedServer)
-		console.log("SERVER---> ", result)
+		const result = await serverAPI.getServerConfig(selectedServer)
+		console.log("server config", result.data)
+		if(result?.code === 200) setData(result?.data)
 	}
 	
 	useEffect(()=>{
@@ -37,14 +38,47 @@ function StatusPanel() {
 			<div className="mockup-window bg-base-100 border border-base-300 w-[65vw] h-[70vh]">
 			  <div className="grid place-content-center h-80">
 			  
-				<div className="flex gap-4">
+				<div className="flex gap-4 flex-col justify-center items-center">
 				
-					<div className="flex flex-row gap-2 justify-center items-center">
-						<div className="text-lg font-medium">Server: </div>
-						<SelectUI items={servers} value={selectedServer} onChange={(e)=> setSelectedServer(e.target.value)} />
+
+					<div role="alert" className="alert alert-soft alert-outline">
+							<span><b>Server: </b></span>
+							<SelectUI items={servers} value={selectedServer} onChange={(e)=> setSelectedServer(e.target.value)} />
+
 					</div>
+
+					<div className="flex flex-row gap-4">
+
+						<div role="alert" className="alert alert-info alert-vertical">
+							<span><div>Guild Id: <b>{data?.guildId}</b></div></span>
+						</div>
+
+						<div role="alert" className="alert alert-info alert-vertical">
+							<span><div>Prefix: <b>{data?.prefix}</b></div></span>
+						</div>
+
+						<div role="alert" className="alert alert-info alert-vertical">
+							<span><div>Log Channel Id: <b>{data?.logChannelId || "Ayarlanmamış"}</b></div></span>
+						</div>
+					</div>
+
+					<div className="flex flex-row gap-4">
+						<div role="alert" className="alert alert-error alert-vertical">
+							<span>{data?.punishmentType && <div>Punishment Type: <b>{data.punishmentType}</b></div>}</span>
+						</div>
+
+						<div role="alert" className="alert alert-error alert-vertical">
+							<span><div>Ban Limit: <b>{data?.limit}</b></div></span>
+						</div>
+						<div role="alert" className="alert alert-error alert-vertical">
+							<span><div>Jail Role Id: <b>{data?.jailRoleId || "Ayarlanmamış"}</b></div></span>
+						</div>
+
+						
+
+					</div>
+					
 				</div>
-			
 			
 			  </div>
 			</div>
