@@ -1,4 +1,4 @@
-import { InputAndTextUI, SelectUI } from '@ui'
+import { SelectUI } from '@ui'
 import { useEffect, useState } from 'react'
 import { botAPI, serverAPI } from '@requests'
 
@@ -17,8 +17,7 @@ function StatusPanel() {
 		
 	const getServer = async ()=> {
 		const result = await serverAPI.getServerConfig(selectedServer)
-		console.log("server config", result.data)
-		if(result?.code === 200) setData(result?.data)
+		setData(result?.data || [])
 	}
 	
 	useEffect(()=>{
@@ -26,7 +25,6 @@ function StatusPanel() {
 	}, [])
 	  
 	useEffect(()=>{
-		console.log("selected", selectedServer)
 		getServer()
 	}, [selectedServer])
   
@@ -46,37 +44,41 @@ function StatusPanel() {
 							<SelectUI items={servers} value={selectedServer} onChange={(e)=> setSelectedServer(e.target.value)} />
 
 					</div>
-
-					<div className="flex flex-row gap-4">
-
-						<div role="alert" className="alert alert-info alert-vertical">
-							<span><div>Guild Id: <b>{data?.guildId}</b></div></span>
-						</div>
-
-						<div role="alert" className="alert alert-info alert-vertical">
-							<span><div>Prefix: <b>{data?.prefix}</b></div></span>
-						</div>
-
-						<div role="alert" className="alert alert-info alert-vertical">
-							<span><div>Log Channel Id: <b>{data?.logChannelId || "Ayarlanmamış"}</b></div></span>
-						</div>
-					</div>
-
-					<div className="flex flex-row gap-4">
-						<div role="alert" className="alert alert-error alert-vertical">
-							<span>{data?.punishmentType && <div>Punishment Type: <b>{data.punishmentType}</b></div>}</span>
-						</div>
-
-						<div role="alert" className="alert alert-error alert-vertical">
-							<span><div>Ban Limit: <b>{data?.limit}</b></div></span>
-						</div>
-						<div role="alert" className="alert alert-error alert-vertical">
-							<span><div>Jail Role Id: <b>{data?.jailRoleId || "Ayarlanmamış"}</b></div></span>
-						</div>
-
+					<div className='flex flex-col gap-4 mt-10'>
 						
+						<div className="flex flex-row gap-4">
 
+							<div role="alert" className="alert alert-info alert-vertical">
+								<span><div>Guild Id: <b>{data?.guildId || "Ayarlanmamış"}</b></div></span>
+							</div>
+
+							<div role="alert" className="alert alert-info alert-vertical">
+								<span><div>Prefix: <b>{data?.prefix || "Ayarlanmamış"}</b></div></span>
+							</div>
+
+							<div role="alert" className="alert alert-info alert-vertical">
+								<span><div>Log Channel Id: <b>{data?.logChannelId || "Ayarlanmamış"}</b></div></span>
+							</div>
+						</div>
+
+						<div className="flex flex-row gap-4">
+							<div role="alert" className="alert alert-error alert-vertical">
+								<span><div>Punishment Type: <b>{data.punishmentType || "Ayarlanmamış"}</b></div></span>
+							</div>
+
+							<div role="alert" className="alert alert-error alert-vertical">
+								<span><div>Ban Limit: <b>{data?.limit || "0"}</b></div></span>
+							</div>
+							<div role="alert" className="alert alert-error alert-vertical">
+								<span><div>Jail Role Id: <b>{data?.jailRoleId || "Ayarlanmamış"}</b></div></span>
+							</div>
+
+							
+
+						</div>
 					</div>
+
+
 					
 				</div>
 			
