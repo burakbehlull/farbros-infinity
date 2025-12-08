@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { FaRegUser } from "react-icons/fa6";
 import { GrStatusCriticalSmall } from "react-icons/gr";
+import { IoSettingsSharp } from "react-icons/io5";
 
 
 
@@ -10,20 +11,26 @@ function Navbar() {
   const pages = [
 	{
 		name: 'Authority Panel',
-		route: '/authority-panel'
+		route: '/authority'
 	},
 	{
 		name: 'Status Panel',
-		route: '/status-panel'
+		route: '/status'
+	},
+	{
+		name: 'Bot Settings',
+		route: '/settings'
 	}
   ]
   
   const getIcon = (name)=> {
 	  switch(name){
-		  case '/status-panel':
+		  case '/status':
 			return <GrStatusCriticalSmall />
-		  case '/authority-panel':
+		  case '/authority':
 			return <FaRegUser />  
+		  case '/settings':
+			return <IoSettingsSharp />  
 	  }
   }
   

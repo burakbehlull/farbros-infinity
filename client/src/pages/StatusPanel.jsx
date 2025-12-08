@@ -1,4 +1,4 @@
-import { SelectUI } from '@ui'
+import { SelectUI, InputAndTextUI } from '@ui'
 import { useEffect, useState } from 'react'
 import { botAPI, serverAPI } from '@requests'
 
@@ -6,7 +6,7 @@ function StatusPanel() {
 	const [servers, setServers] = useState([])
 	const [data, setData] = useState([])
 	const [selectedServer, setSelectedServer] = useState('')
-	
+
 	const getServers = async ()=> {
 		const result = await botAPI.servers()
 		const converted = result?.data?.map((item)=> {
@@ -37,49 +37,7 @@ function StatusPanel() {
 			  <div className="grid place-content-center h-80">
 			  
 				<div className="flex gap-4 flex-col justify-center items-center">
-				
-
-					<div role="alert" className="alert alert-soft alert-outline">
-							<span><b>Server: </b></span>
-							<SelectUI items={servers} value={selectedServer} onChange={(e)=> setSelectedServer(e.target.value)} />
-
-					</div>
-					<div className='flex flex-col gap-4 mt-10'>
-						
-						<div className="flex flex-row gap-4">
-
-							<div role="alert" className="alert alert-info alert-vertical">
-								<span><div>Guild Id: <b>{data?.guildId || "Ayarlanmamış"}</b></div></span>
-							</div>
-
-							<div role="alert" className="alert alert-info alert-vertical">
-								<span><div>Prefix: <b>{data?.prefix || "Ayarlanmamış"}</b></div></span>
-							</div>
-
-							<div role="alert" className="alert alert-info alert-vertical">
-								<span><div>Log Channel Id: <b>{data?.logChannelId || "Ayarlanmamış"}</b></div></span>
-							</div>
-						</div>
-
-						<div className="flex flex-row gap-4">
-							<div role="alert" className="alert alert-error alert-vertical">
-								<span><div>Punishment Type: <b>{data.punishmentType || "Ayarlanmamış"}</b></div></span>
-							</div>
-
-							<div role="alert" className="alert alert-error alert-vertical">
-								<span><div>Ban Limit: <b>{data?.limit || "0"}</b></div></span>
-							</div>
-							<div role="alert" className="alert alert-error alert-vertical">
-								<span><div>Jail Role Id: <b>{data?.jailRoleId || "Ayarlanmamış"}</b></div></span>
-							</div>
-
-							
-
-						</div>
-					</div>
-
-
-					
+					STATUS PANEL	
 				</div>
 			
 			  </div>
