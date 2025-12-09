@@ -5,33 +5,31 @@ import { IoSettingsSharp } from "react-icons/io5";
 
 import { SelectUI } from '@ui'
 import { useEffect, useState } from 'react';
-import { botAPI } from '@requests'
+import { botAPI, serverAPI } from '@requests'
+import { serverStore } from '../store/index'
 
 function Navbar() {
-  const navigate = useNavigate()
+	const {serverId, setServerId} = serverStore()
+
+  	const navigate = useNavigate()
   	const [servers, setServers] = useState([])
 	const [selectedServer, setSelectedServer] = useState('')
 
 	const getServers = async ()=> {
-			const result = await botAPI.servers()
-			const converted = result?.data?.map((item)=> {
-				return {name: item.name, value: item.id}
-			})
-			setServers(converted)
-		}
-			
-		const getServer = async ()=> {
-			const result = await serverAPI.getServerConfig(selectedServer)
-			setData(result?.data || [])
-		}
+		const result = await botAPI.servers()
+		const converted = result?.data?.map((item)=> {
+			return {name: item.name, value: item.id}
+		})
+		setServers(converted)
+	}
 		
-		useEffect(()=>{
-			getServers()
-		}, [])
+	useEffect(()=>{
+		getServers()
+	}, [])
 		  
-		useEffect(()=>{
-			getServer()
-		}, [selectedServer])
+	useEffect(()=>{
+		setServerId(selectedServer)
+	}, [selectedServer])
   
   const pages = [
 	{
@@ -82,8 +80,7 @@ function Navbar() {
 		  </div>
 		  <div className="navbar-end">
 		  {/*<a className="btn">Button</a>*/}
-		  <SelectUI items={servers} value={selectedServer} onChange={(e)=> setSelectedServer(e.target.value)} />
-		  
+		  	<SelectUI items={servers} value={selectedServer} onChange={(e)=> setSelectedServer(e.target.value)} />
 		  </div>
 		</div>
     </nav>

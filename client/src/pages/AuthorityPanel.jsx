@@ -1,33 +1,20 @@
 import { InputAndTextUI, SelectUI } from '@ui'
 import { useEffect, useState } from 'react'
-import { botAPI, serverAPI } from '@requests'
+import { serverAPI } from '@requests'
+import { serverStore } from '@store'
 
 function AuthorityPanel() {
-	const [servers, setServers] = useState([])
+	const { serverId } = serverStore()
 	const [data, setData] = useState([])
-	const [selectedServer, setSelectedServer] = useState('')
 	
-	const getServers = async ()=> {
-		const result = await botAPI.servers()
-		const converted = result?.data?.map((item)=> {
-			return {name: item.name, value: item.id}
-		})
-		setServers(converted)
-	}
-		
 	const getServer = async ()=> {
-		const result = await serverAPI.getServerInfo(selectedServer)
-		console.log("SERVER---> ", result)
+		const result = await serverAPI.getServerInfo(serverId)
+		setData(result?.data || [])
 	}
 	
 	useEffect(()=>{
-		getServers()
-	}, [])
-	  
-	useEffect(()=>{
-		console.log("selected", selectedServer)
 		getServer()
-	}, [selectedServer])
+	}, [serverId])
   
      
   
@@ -40,8 +27,7 @@ function AuthorityPanel() {
 				<div className="flex gap-4">
 				
 					<div className="flex flex-row gap-2 justify-center items-center">
-						<div className="text-lg font-medium">Server: </div>
-						<SelectUI items={servers} value={selectedServer} onChange={(e)=> setSelectedServer(e.target.value)} />
+						<div className="text-lg font-medium">Space </div>
 					</div>
 				</div>
 			

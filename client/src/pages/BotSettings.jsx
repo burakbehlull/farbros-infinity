@@ -1,33 +1,22 @@
 import { SelectUI, InputAndTextUI } from '@ui'
 import { useEffect, useState } from 'react'
-import { botAPI, serverAPI } from '@requests'
+import { serverAPI } from '@requests'
+import { serverStore } from '@store'
 
 function BotSettings() {
-	const [servers, setServers] = useState([])
 	const [data, setData] = useState([])
-	const [selectedServer, setSelectedServer] = useState('')
 	const [selectedPunishmentType, setSelectedPunishmentType] = useState('')
 	
-	const getServers = async ()=> {
-		const result = await botAPI.servers()
-		const converted = result?.data?.map((item)=> {
-			return {name: item.name, value: item.id}
-		})
-		setServers(converted)
-	}
-		
+	const { serverId } = serverStore()
+
 	const getServer = async ()=> {
-		const result = await serverAPI.getServerConfig(selectedServer)
+		const result = await serverAPI.getServerConfig(serverId)
 		setData(result?.data || [])
 	}
-	
-	useEffect(()=>{
-		getServers()
-	}, [])
 	  
 	useEffect(()=>{
 		getServer()
-	}, [selectedServer])
+	}, [serverId])
   
 	 
   
@@ -38,13 +27,6 @@ function BotSettings() {
 			  <div className="grid place-content-center h-80">
 			  
 				<div className="flex gap-4 flex-col justify-center items-center">
-				
-
-					<div role="alert" className="alert alert-soft alert-outline">
-							<span><b>Server: </b></span>
-							<SelectUI items={servers} value={selectedServer} onChange={(e)=> setSelectedServer(e.target.value)} />
-
-					</div>
 					<div className='flex flex-col gap-4 mt-10'>
 						
 						<div className="flex flex-row gap-4">
