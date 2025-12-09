@@ -3,10 +3,35 @@ import { FaRegUser } from "react-icons/fa6";
 import { GrStatusCriticalSmall } from "react-icons/gr";
 import { IoSettingsSharp } from "react-icons/io5";
 
-
+import { SelectUI } from '@ui'
+import { useEffect, useState } from 'react';
+import { botAPI } from '@requests'
 
 function Navbar() {
   const navigate = useNavigate()
+  	const [servers, setServers] = useState([])
+	const [selectedServer, setSelectedServer] = useState('')
+
+	const getServers = async ()=> {
+			const result = await botAPI.servers()
+			const converted = result?.data?.map((item)=> {
+				return {name: item.name, value: item.id}
+			})
+			setServers(converted)
+		}
+			
+		const getServer = async ()=> {
+			const result = await serverAPI.getServerConfig(selectedServer)
+			setData(result?.data || [])
+		}
+		
+		useEffect(()=>{
+			getServers()
+		}, [])
+		  
+		useEffect(()=>{
+			getServer()
+		}, [selectedServer])
   
   const pages = [
 	{
@@ -57,6 +82,8 @@ function Navbar() {
 		  </div>
 		  <div className="navbar-end">
 		  {/*<a className="btn">Button</a>*/}
+		  <SelectUI items={servers} value={selectedServer} onChange={(e)=> setSelectedServer(e.target.value)} />
+		  
 		  </div>
 		</div>
     </nav>
