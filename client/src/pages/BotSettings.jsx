@@ -2,23 +2,33 @@ import { SelectUI, InputAndTextUI } from '@ui'
 import { useEffect, useState } from 'react'
 import { serverAPI } from '@requests'
 import { serverStore } from '@store'
+import { penalties } from '@data'
 
 function BotSettings() {
 	const [data, setData] = useState([])
 	const [selectedPunishmentType, setSelectedPunishmentType] = useState('')
+	const [ipenalties, setIPenalties] = useState([])
 	
 	const { serverId } = serverStore()
 
 	const getServer = async ()=> {
 		const result = await serverAPI.getServerConfig(serverId)
 		setData(result?.data || [])
+		
 	}
-	  
+	function convertedPenalties(){
+		const converted = Object.values(penalties).map((item)=> {
+			return {name: item, value: item}
+		})
+		setIPenalties(converted)
+	}
 	useEffect(()=>{
 		getServer()
 	}, [serverId])
-  
-	 
+
+	useEffect(()=>{
+		convertedPenalties()
+	}, [])
   
   return (
 	<> 
@@ -62,7 +72,7 @@ function BotSettings() {
 						<div className="flex flex-row gap-4">
 							<div role="alert" className="alert alert-error alert-vertical">
 								<span><b>Punishment Type: </b></span>
-								<SelectUI items={[]} value={selectedPunishmentType} onChange={(e)=> setSelectedPunishmentType(e.target.value)} />
+								<SelectUI items={ipenalties} value={selectedPunishmentType} onChange={(e)=> setSelectedPunishmentType(e.target.value)} />
 							</div>
 							<div role="alert" className="alert alert-error alert-vertical">
 								<InputAndTextUI 

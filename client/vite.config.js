@@ -28,6 +28,7 @@ export default defineConfig({
       '@components': way('src/components/index'),
       '@ui': way('src/components/ui/index'),
       '@store': way('src/store/index'),
+      '@data': way('../data/index'),
     },
   },
 })
