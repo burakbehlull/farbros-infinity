@@ -36,6 +36,7 @@ function BotSettings() {
 			...data,
 			punishmentType: selectedPunishmentType
 		})
+		console.log("result,", result)
 	}
   
   return (

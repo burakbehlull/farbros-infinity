@@ -56,7 +56,7 @@ async function guildConfigFindById(guildId){
 async function guildConfigUpdate(guildId, data){
 	const guildConfig = await GuildConfig.findOne({guildId})
 	
-	if(data?.enable) guildConfig?.enable = data?.enable
+	if(data.enable) guildConfig.enable = data.enable
 	if(data.prefix) guildConfig.prefix = data.prefix
 	if(data.logChannelId) guildConfig.logChannelId = data.logChannelId
 	if(data.jailRoleId) guildConfig.jailRoleId = data.jailRoleId
