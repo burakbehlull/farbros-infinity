@@ -19,6 +19,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '~': way('src'),
+      '@': way('src'),
 	    '@api': way('src/base/api.js'),
       '@requests': way('src/base/requests.js'),
 	  
@@ -27,7 +28,7 @@ export default defineConfig({
       '@pages': way('src/pages/index'),
       '@components': way('src/components/index'),
       '@ui': way('src/components/ui/index'),
-      '@store': way('src/store/index'),
+      '@store': way('src/store'),
       '@data': way('../data/index'),
     },
   },

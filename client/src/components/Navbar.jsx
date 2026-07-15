@@ -1,90 +1,77 @@
-import { useNavigate } from 'react-router-dom'
-import { FaRegUser } from "react-icons/fa6";
-import { GrStatusCriticalSmall } from "react-icons/gr";
-import { IoSettingsSharp } from "react-icons/io5";
-
-import { SelectUI } from '@ui'
-import { useEffect, useState } from 'react';
-import { botAPI, serverAPI } from '@requests'
-import { serverStore } from '../store/index'
+import { useNavigate, useLocation } from 'react-router-dom';
+import { FaRegUser } from 'react-icons/fa6';
+import { GrStatusCriticalSmall } from 'react-icons/gr';
+import { IoSettingsSharp } from 'react-icons/io5';
+import { Button } from '@ui';
 
 function Navbar() {
-	const {serverId, setServerId} = serverStore()
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  	const navigate = useNavigate()
-  	const [servers, setServers] = useState([])
-	const [selectedServer, setSelectedServer] = useState('')
-
-	const getServers = async ()=> {
-		const result = await botAPI.servers()
-		const converted = result?.data?.map((item)=> {
-			return {name: item.name, value: item.id}
-		})
-		setServers(converted)
-	}
-		
-	useEffect(()=>{
-		getServers()
-	}, [])
-		  
-	useEffect(()=>{
-		setServerId(selectedServer)
-	}, [selectedServer])
-  
   const pages = [
-	{
-		name: 'Authority Panel',
-		route: '/authority'
-	},
-	{
-		name: 'Status Panel',
-		route: '/status'
-	},
-	{
-		name: 'Bot Settings',
-		route: '/settings'
-	}
-  ]
-  
-  const getIcon = (name)=> {
-	  switch(name){
-		  case '/status':
-			return <GrStatusCriticalSmall />
-		  case '/authority':
-			return <FaRegUser />  
-		  case '/settings':
-			return <IoSettingsSharp />  
-	  }
-  }
-  
+    {
+      name: 'Durum Paneli',
+      route: '/status',
+      icon: <GrStatusCriticalSmall />
+    },
+    {
+      name: 'Yetki Paneli',
+      route: '/authority',
+      icon: <FaRegUser />
+    },
+    {
+      name: 'Bot Ayarları',
+      route: '/settings',
+      icon: <IoSettingsSharp />
+    }
+  ];
+
   return (
-    <nav className="bg-blue-600"> 
-		<div className="navbar bg-base-100 shadow-sm">
-		  <div className="navbar-start">
-			<div className="dropdown">
-			  <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
-				<svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" /> </svg>
-			  </div>
-			  <ul
-				tabIndex="-1"
-				className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
-				{pages?.map((page, i)=> <li onClick={()=> navigate(`${page.route}`)}><a>{getIcon(page.route)} {page.name}</a></li>)}
-			  </ul>
-			</div>
-			<a className="btn btn-ghost text-xl" onClick={()=> navigate("/")}>Farbros Infinity</a>
-		  </div>
-		  <div className="navbar-center hidden lg:flex">
-			<ul className="menu menu-horizontal px-1">
-				{pages?.map((page, i)=> <li onClick={()=> navigate(`${page.route}`)}><a>{getIcon(page.route)} {page.name}</a></li>)}
-			</ul>
-		  </div>
-		  <div className="navbar-end">
-		  {/*<a className="btn">Button</a>*/}
-		  	<SelectUI items={servers} value={selectedServer} onChange={(e)=> setSelectedServer(e.target.value)} />
-		  </div>
-		</div>
+    <nav className="bg-primary text-primary-foreground shadow-md">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          {/* Logo */}
+          <div className="flex-shrink-0">
+            <button
+              onClick={() => navigate('/')}
+              className="text-xl font-bold hover:opacity-80 transition-opacity"
+            >
+              Farbros Infinity
+            </button>
+          </div>
+
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center space-x-4">
+            {pages.map(page => (
+              <Button
+                key={page.route}
+                variant={location.pathname === page.route ? 'secondary' : 'ghost'}
+                onClick={() => navigate(page.route)}
+                className="flex items-center gap-2"
+              >
+                {page.icon}
+                {page.name}
+              </Button>
+            ))}
+          </div>
+
+          {/* Mobile Navigation (simplified) */}
+          <div className="md:hidden flex space-x-2">
+            {pages.map(page => (
+              <Button
+                key={page.route}
+                variant="ghost"
+                size="icon"
+                onClick={() => navigate(page.route)}
+              >
+                {page.icon}
+              </Button>
+            ))}
+          </div>
+        </div>
+      </div>
     </nav>
-  )
+  );
 }
 
-export default Navbar
+export default Navbar;

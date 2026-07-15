@@ -20,11 +20,10 @@ const apiRequest = {
             return response.data;
         } catch (error) {
             console.error('POST Error:', error);
-			return {
-				status: false,
-				error: error
-			}
-            throw error;
+            return {
+                success: false,
+                error: error.response?.data || error.message
+            };
         }
     },
     put: async (url, data, config = {}) => {
@@ -33,11 +32,10 @@ const apiRequest = {
             return response.data;
         } catch (error) {
             console.error('PUT Error:', error);
-			return {
-				status: false,
-				error: error
-			}
-            throw error;
+            return {
+                success: false,
+                error: error.response?.data || error.message
+            };
         }
     },
     patch: async (url, data, config = {}) => {
@@ -46,15 +44,13 @@ const apiRequest = {
             return response.data;
         } catch (error) {
             console.error('PATCH Error:', error);
-			return {
-				status: false,
-				error: error
-			}
-			
-            throw error;
+            return {
+                success: false,
+                error: error.response?.data || error.message
+            };
         }
     },
-    delete: async (url, config = {}, data) => {
+    delete: async (url, data, config = {}) => {
         try {
             const response = await API.delete(url, {
                 data,
@@ -63,11 +59,10 @@ const apiRequest = {
             return response.data;
         } catch (error) {
             console.error('DELETE Error:', error);
-			return {
-				status: false,
-				error: error
-			}
-            throw error;
+            return {
+                success: false,
+                error: error.response?.data || error.message
+            };
         }
     }
 };

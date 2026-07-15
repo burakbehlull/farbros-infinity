@@ -1,15 +1,14 @@
-import { Navbar } from '@components'
+import { Navbar } from '@components';
 
-function Layout({children}) {
-
+function Layout({ children }) {
   return (
-    <div className="min-h-screen"> 
-		<Navbar />
-		<main className="flex justify-center md:h-[89vh] lg:h-[93vh] items-center bg-blue-100">
-			{children}
-		</main>
+    <div className="min-h-screen bg-background">
+      <Navbar />
+      <main className="py-6">
+        {children}
+      </main>
     </div>
-  )
+  );
 }
 
-export default Layout
+export default Layout;

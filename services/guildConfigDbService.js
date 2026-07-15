@@ -6,11 +6,11 @@ async function getGuildConfig(values){
 	data = await GuildConfig.findOne({guildId})
 
 	if(!data) {
-		data = await createGuildConfig(guildId)
+		const created = await createGuildConfig(guildId)
 		return {
-			success: false,
-			message: 'Böyle bir guild yok, yeni döküman oluşturuldu',
-			data
+			success: true,
+			message: 'Böyle bir guild yok, yeni döküman oluşturuldu.',
+			data: created.data.toJSON()
 		}
 	}
 
@@ -18,7 +18,7 @@ async function getGuildConfig(values){
 		code: 200,
 		success: true,
 		message: 'Döküman çekildi.',
-		data
+		data: data.toJSON()
 	}
 }
 
@@ -34,7 +34,7 @@ async function createGuildConfig(guildId){
 		code: 200,
 		success: true,
 		message: 'Döküman yaratıldı.',
-		data: guildConfig
+		data: guildConfig.toJSON()
 	}
 	
 }
@@ -49,27 +49,64 @@ async function guildConfigFindById(guildId){
 		success: true,
 		code: 200,
 		message: 'Döküman çekildi.',
-		data: data
+		data: data.toJSON()
 	}	
 }
 
 async function guildConfigUpdate(guildId, data){
-	const guildConfig = await GuildConfig.findOne({guildId})
+	console.log("DEBUG guildConfigUpdate guildId: ", guildId);
+	console.log("DEBUG guildConfigUpdate data: ", JSON.stringify(data, null, 2));
+	let guildConfig = await GuildConfig.findOne({guildId})
+	console.log("DEBUG guildConfigUpdate found guildConfig: ", guildConfig ? JSON.stringify(guildConfig.toJSON(), null, 2) : "not found");
+	if(!guildConfig) {
+		console.log("DEBUG guildConfigUpdate creating new guildConfig");
+		guildConfig = await GuildConfig.create({ guildId })
+	}
 	
-	if(data.enable) guildConfig.enable = data.enable
-	if(data.prefix) guildConfig.prefix = data.prefix
-	if(data.logChannelId) guildConfig.logChannelId = data.logChannelId
-	if(data.jailRoleId) guildConfig.jailRoleId = data.jailRoleId
-	if(data.punishmentType) guildConfig.punishmentType = data.punishmentType
+	// Explicitly set each top-level field (except _id, __v, guildId)
+	if (typeof data.enable !== 'undefined') guildConfig.enable = data.enable;
+	if (typeof data.prefix !== 'undefined') guildConfig.prefix = data.prefix;
+	if (typeof data.logChannelId !== 'undefined') guildConfig.logChannelId = data.logChannelId; // Allow null
+	if (typeof data.jailRoleId !== 'undefined') guildConfig.jailRoleId = data.jailRoleId; // Allow null
+	if (typeof data.punishmentType !== 'undefined') guildConfig.punishmentType = data.punishmentType;
+	if (typeof data.limit !== 'undefined') guildConfig.limit = Number(data.limit);
 	
-	const result = await data.save()
+	// Guard settings
+	const guardFields = [
+		"roleDeleteGuard", "roleUpdateGuard", "channelDeleteGuard", 
+		"channelUpdateGuard", "botAddGuard", "webGuard", "memberRoleGuard",
+		"guildUrlGuard", "guildUpdateGuard", "kickGuard", "banGuard", 
+		"kickBanLimitGuard", "messageCommandExecuter", "slashCommandExecuter"
+	];
 	
+	guardFields.forEach(field => {
+		if (typeof data[field] !== 'undefined') {
+			guildConfig[field] = data[field];
+		}
+	});
+	
+	// Level settings (high, mid, low)
+	const levelFields = ["high", "mid", "low"];
+	levelFields.forEach(level => {
+		if (data[level]) {
+			const levelData = data[level];
+			if (typeof levelData.enable !== 'undefined') guildConfig[level].enable = levelData.enable;
+			if (typeof levelData.isAuthorities !== 'undefined') guildConfig[level].isAuthorities = levelData.isAuthorities;
+			if (Array.isArray(levelData.authorities)) guildConfig[level].authorities = levelData.authorities;
+			if (Array.isArray(levelData.members)) guildConfig[level].members = levelData.members;
+			if (Array.isArray(levelData.roles)) guildConfig[level].roles = levelData.roles;
+		}
+	});
+
+	console.log("DEBUG guildConfigUpdate saving guildConfig: ", JSON.stringify(guildConfig.toJSON(), null, 2));
+	const result = await guildConfig.save();
+	console.log("DEBUG guildConfigUpdate saved result: ", JSON.stringify(result.toJSON(), null, 2));
 	
 	return {
 		success: true,
 		message: 'Döküman güncellendi.',
-		data: result
-	}	
+		data: result.toJSON()
+	};	
 }
 
 async function addItemToGuildConfig(guildId, {level, type, data}){
@@ -78,7 +115,7 @@ async function addItemToGuildConfig(guildId, {level, type, data}){
 	if (!guildConfig) {
 	  guildConfig = new GuildConfig({ guildId });
 	}
-	
+
 	const mode = guildConfig[level]
 	const result = mode[type]
 	
@@ -89,10 +126,11 @@ async function addItemToGuildConfig(guildId, {level, type, data}){
 				message: 'Bu üye zaten var!'	
 			}
 			result.push(data)
-			await guildConfig.save()
+			const savedMembers = await guildConfig.save()
 			return {
 				success: true,
-				message: 'Üye eklendi.'	
+				message: 'Üye eklendi.',
+				data: savedMembers.toJSON()
 			}
 		case 'authorities':
 			if(result.includes(data)) return {
@@ -100,10 +138,11 @@ async function addItemToGuildConfig(guildId, {level, type, data}){
 				message: 'Bu yetki zaten tanımlanmış!'	
 			}
 			result.push(data)
-			await guildConfig.save()
+			const savedAuthorities = await guildConfig.save()
 			return {
 				success: true,
-				message: 'Yetki eklendi.'	
+				message: 'Yetki eklendi.',
+				data: savedAuthorities.toJSON()
 			}
 		case 'roles':
 			if(result.includes(data)) return {
@@ -111,28 +150,34 @@ async function addItemToGuildConfig(guildId, {level, type, data}){
 				message: 'Bu rol zaten var!'	
 			}
 			result.push(data)
-			await guildConfig.save()
+			const savedRoles = await guildConfig.save()
 			return {
 				success: true,
-				message: 'Rol eklendi.'	
+				message: 'Rol eklendi.',
+				data: savedRoles.toJSON()
 			}
 		case 'enable':
 			mode.enable = data
-			await guildConfig.save()
+			const savedEnable = await guildConfig.save()
 			return {
 				success: true,
-				message: 'Enable güncellendi'	
+				message: 'Enable güncellendi',
+				data: savedEnable.toJSON()
 			}
 		case 'isAuthorities':
 			mode.isAuthorities = data
-			await guildConfig.save()
+			const savedIsAuth = await guildConfig.save()
 			return {
 				success: true,
-				message: 'Authority enable güncellendi'	
+				message: 'Authority enable güncellendi',
+				data: savedIsAuth.toJSON()
 			}
-		
+		default:
+			return {
+				success: false,
+				message: 'Geçersiz tür belirtildi.'
+			}
 	}
-	
 }
 
 async function removeItemFromGuildConfig(guildId, { level, type, data }) {
@@ -156,10 +201,11 @@ async function removeItemFromGuildConfig(guildId, { level, type, data }) {
         };
       }
       mode.members = result.filter(item => item !== data);
-      await guildConfig.save();
+      const savedRemoveMembers = await guildConfig.save();
       return {
         success: true,
-        message: 'Üye kaldırıldı.'
+        message: 'Üye kaldırıldı.',
+		data: savedRemoveMembers.toJSON()
       };
 
     case 'authorities':
@@ -170,10 +216,11 @@ async function removeItemFromGuildConfig(guildId, { level, type, data }) {
         };
       }
       mode.authorities = result.filter(item => item !== data);
-      await guildConfig.save();
+      const savedRemoveAuthorities = await guildConfig.save();
       return {
         success: true,
-        message: 'Yetki kaldırıldı.'
+        message: 'Yetki kaldırıldı.',
+		data: savedRemoveAuthorities.toJSON()
       };
 
     case 'roles':
@@ -184,26 +231,29 @@ async function removeItemFromGuildConfig(guildId, { level, type, data }) {
         };
       }
       mode.roles = result.filter(item => item !== data);
-      await guildConfig.save();
+      const savedRemoveRoles = await guildConfig.save();
       return {
         success: true,
-        message: 'Rol kaldırıldı.'
+        message: 'Rol kaldırıldı.',
+		data: savedRemoveRoles.toJSON()
       };
 
     case 'enable':
       mode.enable = false;
-      await guildConfig.save();
+      const savedDisableEnable = await guildConfig.save();
       return {
         success: true,
-        message: 'Enable devre dışı bırakıldı.'
+        message: 'Enable devre dışı bırakıldı.',
+		data: savedDisableEnable.toJSON()
       };
 
     case 'isAuthorities':
       mode.isAuthorities = false;
-      await guildConfig.save();
+      const savedDisableAuth = await guildConfig.save();
       return {
         success: true,
-        message: 'Authority enable devre dışı bırakıldı.'
+        message: 'Authority enable devre dışı bırakıldı.',
+		data: savedDisableAuth.toJSON()
       };
 
     default:

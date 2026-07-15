@@ -22,7 +22,6 @@ class Action {
 	async initAsync(){
 		const data = {
 			body: this.body || null,
-			data: this.body?.data || {},
 			params: this.params || {},
 			query: this.query || {},
 			headers: this.headers
@@ -40,7 +39,7 @@ class Action {
 	}
 	init(){
 		const data = {
-			data: this.body?.data || {},
+			body: this.body || null,
 			params: this.params || {},
 			query: this.query || {},
 			headers: this.headers

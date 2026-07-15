@@ -119,7 +119,7 @@ export default class AuthorityManager {
 		
 		if(!guildConfig?.success) return false
 		
-		const guildData = guildConfig?.data?.toObject()
+		const guildData = guildConfig?.data
 		
 		
 		if(!guildData?.enable) return false

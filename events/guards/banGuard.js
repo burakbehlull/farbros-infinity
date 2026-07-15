@@ -3,7 +3,7 @@ import { themes } from '#data'
 
 export default {
   name: "guildBanAdd",
-  async execute(client, guild) {
+  async execute(client, guild, bannedUser) {
     try {
 
 		const { authority, theme: tb, audit, punish } = new Manager(client, {
@@ -27,18 +27,18 @@ export default {
 		
 		const punishment = await punish.execute(userId, {reason: 'Sağ tık ban'})
 
-		const user = await tb.getUser(userId)
+		const executorUser = await tb.getUser(userId)
 		
-		await member.unban({
+		await guild.members.unban(bannedUser.id, {
             reason: 'Geçersiz ban sebebi'
         })
 		
 		const theme = await tb.embedThemeBuilder(themes.success, {
-			  action: true,
-			  title: 'Ban Guard -> Ban Add',
-			  author: tb.getNameAndAvatars("guild"),
-			  description: `${user} kullanıcı, **${member}** (${member?.id}) adlı kullanıcıyı banladı. ${punishment?.success ? punishment?.message : ''}`,
-			  footer: tb.getNameAndAvatars("user", user)
+			action: true,
+			title: 'Ban Guard -> Ban Add',
+			author: tb.getNameAndAvatars("guild"),
+			description: `${executorUser} kullanıcı, **${bannedUser}** (${bannedUser?.id}) adlı kullanıcıyı banladı. ${punishment?.success ? punishment?.message : ''}`,
+			footer: tb.getNameAndAvatars("user", executorUser)
 		})
 		
 		await theme.log()

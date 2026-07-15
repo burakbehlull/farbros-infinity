@@ -1,9 +1,9 @@
 import bot from '#bot'
-import { guildConfigUpdate, addItemToGuildConfig } from '#services'
+import { guildConfigUpdate, addItemToGuildConfig, removeItemFromGuildConfig } from '#services'
 
 const getServersFromBot = async ()=>{
     try {
-		const servers = await bot.client.guilds.cache
+		const servers = bot.client.guilds.cache; // No await needed for cache, it's synchronous
 		if(!servers) return {
             success: false,
 			message: 'Bot sunucuları bulunamadı',
@@ -16,7 +16,7 @@ const getServersFromBot = async ()=>{
 			code: 200
         }
     } catch (err) {
-		console.log("[ERROR | BotService/getServersFromBot]: ", err)
+		console.error("[ERROR | BotService/getServersFromBot]: ", err);
         return {
 			success: false,
 			message: err.message,
@@ -27,31 +27,32 @@ const getServersFromBot = async ()=>{
 }
 
 const getServerById = async (values)=>{
-	const { guildId } = values.params
+	const { guildId } = values.params;
     try {
-		const server = await bot.client.guilds.fetch(guildId)
+		const server = await bot.client.guilds.fetch(guildId);
+		const roles = await server.roles.fetch();
+        const channels = await server.channels.fetch();
+        const members = await server.members.fetch();
 		
-		const roles = await server.roles.fetch()
-        const channels = await server.channels.fetch()
-        const members = await server.members.fetch()
+		// Convert discord.js Collections to plain objects/arrays for JSON serialization
+		const serializeCollection = (coll) => {
+			const arr = [];
+			coll.forEach(item => arr.push(item.toJSON()));
+			return arr;
+		};
 		
-		if(!guildId) return {
-            success: false,
-			message: 'Sunucu bulunamadı',
-			code: 400
-        }
         return {
             success: true,
-			message: 'Bot sunucuları çekildi',
+			message: 'Sunucu bilgileri çekildi',
 			data: {
-				roles: roles,
-				channels: channels,
-				members: members,
+				roles: serializeCollection(roles),
+				channels: serializeCollection(channels),
+				members: serializeCollection(members),
 			},
 			code: 200
         }
     } catch (err) {
-		console.error("[ERROR | BotService/getServerById]: ", err)
+		console.error("[ERROR | BotService/getServerById]: ", err);
         return {
 			success: false,
 			message: err.message,
@@ -63,13 +64,13 @@ const getServerById = async (values)=>{
 
 
 const guildSettingsAdd = async (values)=>{
-	
+	console.log("DEBUG guildSettingsAdd values:", JSON.stringify(values, null, 2));
 	const { guildId } = values.params
-	const { data } = values.data
-	
+	const data = values.body
+	console.log("DEBUG guildSettingsAdd guildId:", guildId, "data:", data);
     try {
 		const guildConfig = await addItemToGuildConfig(guildId, data)
-
+		console.log("DEBUG guildSettingsAdd guildConfig:", JSON.stringify(guildConfig, null, 2));
 		if(!guildConfig.success) return {
             success: false,
 			message: 'Sunucu değerleri güncellenemedi.',
@@ -82,7 +83,7 @@ const guildSettingsAdd = async (values)=>{
 			code: 200
         }
     } catch (err) {
-		console.log("[ERROR | BotService/addItemToGuildConfig]: ", err)
+		console.error("[ERROR | BotService/guildSettingsAdd]: ", err);
         return {
 			success: false,
 			message: err.message,
@@ -93,13 +94,13 @@ const guildSettingsAdd = async (values)=>{
 }
 
 const guildSettingsRemove = async (values)=>{
-	
+	console.log("DEBUG guildSettingsRemove values:", JSON.stringify(values, null, 2));
 	const { guildId } = values.params
-	const { data } = values.data
-	
+	const data = values.body
+	console.log("DEBUG guildSettingsRemove guildId:", guildId, "data:", data);
     try {
 		const guildConfig = await removeItemFromGuildConfig(guildId, data)
-
+		console.log("DEBUG guildSettingsRemove guildConfig:", JSON.stringify(guildConfig, null, 2));
 		if(!guildConfig.success) return {
             success: false,
 			message: 'Sunucu değerleri güncellenemedi.',
@@ -112,7 +113,7 @@ const guildSettingsRemove = async (values)=>{
 			code: 200
         }
     } catch (err) {
-		console.log("[ERROR | BotService/removeItemFromGuildConfig]: ", err)
+		console.error("[ERROR | BotService/guildSettingsRemove]: ", err);
         return {
 			success: false,
 			message: err.message,
@@ -124,11 +125,18 @@ const guildSettingsRemove = async (values)=>{
 
 const guildSettingsUpdate = async (values)=>{
 	
+	console.log("DEBUG guildSettingsUpdate values: ", JSON.stringify(values, null, 2));
+	
 	const { guildId } = values.params
-	const { data } = values.data
+	const data = values.body
+	
+	console.log("DEBUG guildSettingsUpdate guildId: ", guildId);
+	console.log("DEBUG guildSettingsUpdate data: ", JSON.stringify(data, null, 2));
 	
     try {
 		const guildConfig = await guildConfigUpdate(guildId, data)
+		
+		console.log("DEBUG guildSettingsUpdate guildConfig: ", JSON.stringify(guildConfig, null, 2));
 
 		if(!guildConfig.success) return {
             success: false,
@@ -142,7 +150,7 @@ const guildSettingsUpdate = async (values)=>{
 			code: 200
         }
     } catch (err) {
-		console.log("[ERROR | BotService/guildSettingsUpdate]: ", err)
+		console.error("[ERROR | BotService/guildSettingsUpdate]: ", err)
         return {
 			success: false,
 			message: err.message,
