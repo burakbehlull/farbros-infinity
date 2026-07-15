@@ -140,20 +140,37 @@ class ThemeBuilder extends Sender {
 	}
 	
 	getNameAndAvatars(type, action){
-		const interaction = action || this.guild
-		const user = interaction.author ?? interaction.user
+		const interaction = action || this.client
+		const user = interaction?.author ?? interaction?.user ?? interaction?.member?.user
+		const guild = interaction?.guild ?? this.guild
 
 		if(type=="user") {
+			if(!user) {
+				console.error("[ThemeBuilder/getNameAndAvatars]: User not found");
+				return {
+					text: "Unknown User",
+					name: "Unknown User",
+					iconURL: null
+				}
+			}
 			return {
 				text: user.username,
 				name: user.username,
 				iconURL: user.displayAvatarURL()
 			}
 		} else if(type=="guild") {
+			if(!guild) {
+				console.error("[ThemeBuilder/getNameAndAvatars]: Guild not found");
+				return {
+					text: "Unknown Guild",
+					name: "Unknown Guild",
+					iconURL: null
+				}
+			}
 			return {
-				text: interaction.name, 
-				name: interaction.name, 
-				iconURL: interaction.iconURL()
+				text: guild.name, 
+				name: guild.name, 
+				iconURL: guild.iconURL()
 			}
 		}
 	}
